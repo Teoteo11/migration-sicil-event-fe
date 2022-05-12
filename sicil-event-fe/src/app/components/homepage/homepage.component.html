@@ -1,4 +1,15 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
+<app-counter-total [totalTickets]="totalTickets"></app-counter-total>
 <app-btn-ticket></app-btn-ticket>
-<h1>Ruolo: {{role}} </h1>
+<ng-container [ngSwitch]="role">
+    <ng-container class="wrapper-section" *ngSwitchCase="'ADMIN'">
+        <h1>Ciao Admin</h1>
+    </ng-container>
+    <ng-container class="wrapper-section" *ngSwitchCase="'PR'">
+        <app-list-tickets [tickets]="tickets" [fieldFilter]="sendFieldToFilter"></app-list-tickets>
+    </ng-container>
+    <ng-container class="wrapper-section" *ngSwitchCase="'RECEPTIONIST'">
+        <h1>Ciao Receptionist</h1>
+    </ng-container>
+</ng-container>

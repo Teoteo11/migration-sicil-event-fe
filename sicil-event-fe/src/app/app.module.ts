@@ -16,7 +16,16 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { LoaderService } from './services/loader.service';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { BtnTicketComponent } from './components/btn-ticket/btn-ticket.component';
+import { BtnTicketComponent } from './shared/btn-ticket/btn-ticket.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { CounterTotalComponent } from './components/tickets/counter-total/counter-total.component';
+import { SellTicketComponent } from './components/tickets/sell-ticket/sell-ticket.component';
+import { FilterBarComponent } from './shared/filter-bar/filter-bar.component';
+import { ListTicketsComponent } from './components/tickets/list-tickets/list-tickets.component';
+import { TicketComponent } from './components/tickets/ticket/ticket.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +36,12 @@ import { BtnTicketComponent } from './components/btn-ticket/btn-ticket.component
     LoaderComponent,
     HomepageComponent,
     NavbarComponent,
-    BtnTicketComponent
+    BtnTicketComponent,
+    CounterTotalComponent,
+    SellTicketComponent,
+    FilterBarComponent,
+    ListTicketsComponent,
+    TicketComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +51,12 @@ import { BtnTicketComponent } from './components/btn-ticket/btn-ticket.component
     NoopAnimationsModule,
     CookieModule.forRoot(),
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatCardModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatSelectModule,
   ],
   providers: [
     LoaderService,

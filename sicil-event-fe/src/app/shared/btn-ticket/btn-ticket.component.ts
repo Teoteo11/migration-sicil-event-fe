@@ -23,8 +23,8 @@ export class BtnTicketComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  sellTicket = () => this.router.navigate(['sell-ticket'])
+  sellTicket = () => this.router.navigate(['sell-ticket']);
 
-  showBtn = () => this.url === '/homepage' && (this.cookieService.get('role') && this.cookieService.get('role') === Role.PR)
+  showBtn = () => this.url === '/homepage' && (this.cookieService.get('role') && this.cookieService.get('role') === Role.PR);
 
 }

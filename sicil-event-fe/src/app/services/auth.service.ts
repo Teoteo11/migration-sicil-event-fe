@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { Observable } from 'rxjs/internal/Observable';
+import { environment } from 'src/environments/environment';
 import { Role, User } from '../models/user';
 
 @Injectable({
@@ -13,12 +14,12 @@ export class AuthService {
 
   role: Observable<Role> = undefined;
 
-  constructor(private http: HttpClient, 
-              private router: Router, 
-              private cookieService: CookieService) {}
+  constructor(private http: HttpClient,
+    private router: Router,
+    private cookieService: CookieService) { }
 
-  login = async (email: string, password: string) => 
-    await this.http.post<User>(`http://localhost:3008/${this.getRole()}/login`, { email, password }).toPromise();
+  login = async (email: string, password: string) =>
+    await this.http.post<User>(`${environment.url}/${this.getRole()}/login`, { email, password }).toPromise();
 
 
   getRole = (): string => {
@@ -38,7 +39,7 @@ export class AuthService {
     this.cookieService.removeAll();
     this.router.navigate(['choose-role']);
   }
-  
+
   isLoggedIn = (): boolean => this.cookieService.get('accessToken') ? true : false;
 
   handleErrorStatus = (error): string => {
@@ -63,17 +64,17 @@ export class AuthService {
 
   storeAuthData = (authenticationData: Partial<User>): Promise<void> => {
     try {
-        // const accessTokenExpire = (Math.trunc(Date.now() / 1000)) + authenticationData.expiresIn;
-        this.cookieService.put('accessToken', authenticationData.accessToken);
-        this.cookieService.put('id', authenticationData._id);
-        // this.cookieService.put('accessTokenExpiry', String(authenticationData.expiresIn));
-        // this.cookieService.put('accessTokenExpireAt', String(accessTokenExpire));
-        this.cookieService.put('refreshToken', authenticationData.refreshToken);
-        this.cookieService.put('role', authenticationData.role);
+      // const accessTokenExpire = (Math.trunc(Date.now() / 1000)) + authenticationData.expiresIn;
+      this.cookieService.put('accessToken', authenticationData.accessToken);
+      this.cookieService.put('id', authenticationData._id);
+      // this.cookieService.put('accessTokenExpiry', String(authenticationData.expiresIn));
+      // this.cookieService.put('accessTokenExpireAt', String(accessTokenExpire));
+      this.cookieService.put('refreshToken', authenticationData.refreshToken);
+      this.cookieService.put('role', authenticationData.role);
     } catch (err) {
-        return Promise.reject();
+      return Promise.reject();
     }
     return Promise.resolve();
-   }
+  }
 }
 

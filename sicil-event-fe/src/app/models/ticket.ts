@@ -10,7 +10,7 @@ export interface Ticket {
 
 export enum Type {
     GIFT = "GIFT",
-    DANCE_FLOOR = "DANCE FLOOR",
+    DANCE_FLOOR = "DANCE_FLOOR",
     BACKSTAGE = "BACKSTAGE"
 }
 

@@ -32,6 +32,4 @@ export class HomepageComponent implements OnInit {
     //BIGLIETTI PER RECEPTIONIST
   }
 
-  receiveTabChoosed = ($event: string) => this.sendFieldToFilter = $event;
-
 }

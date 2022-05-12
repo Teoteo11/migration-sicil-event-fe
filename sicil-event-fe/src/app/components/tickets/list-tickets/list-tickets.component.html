@@ -1,13 +1,14 @@
 <div class="row m-0 container-tickets">
-    <app-filter-bar></app-filter-bar>
+    <app-filter-bar (triggerTab)="receiveTabChoosed($event)"></app-filter-bar>
     <div class="col-sm-12 mt-1 d-inline-flex justify-content-between align-items-center">
         <p class="total-specific-tickets">Biglietti: {{tickets.length}}</p>
         <div>
             <input 
             class="field-input" 
-            (keydown.enter)="filterArray($event.target.value)" 
+            (keydown.enter)="filterArray()" 
             placeholder="Campo preciso richiesto"
-            type="text" 
+            type="text"
+            [(ngModel)]="textValue"
             name="search" 
             id="search">
             <img src="../../../assets/icons/search.svg" alt="search">

@@ -15,6 +15,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { LoaderService } from './services/loader.service';
 import { HomepageComponent } from './components/homepage/homepage.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { BtnTicketComponent } from './components/btn-ticket/btn-ticket.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { HomepageComponent } from './components/homepage/homepage.component';
     ChooseRoleComponent,
     ButtonComponent,
     LoaderComponent,
-    HomepageComponent
+    HomepageComponent,
+    NavbarComponent,
+    BtnTicketComponent
   ],
   imports: [
     BrowserModule,

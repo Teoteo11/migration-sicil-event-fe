@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="row p-2 custom-bg">
+        <div class="section col-md-8 col-lg-6">
+            <div (click)="back()" class="wrapper-icon">
+                <img height="30" src="../../../assets/icons/arrow.svg" alt="arrow-back">
+            </div>
+            <form [formGroup]="loginForm" (ngSubmit)="submit()">
+                <div class="row">
+                    <div class="col-sm-12 col-md-8 offset-md-2">
+                        <div class="container-logo">
+                            <img class="logo" src="../../../assets/icons/logo.jpg" alt="logo">
+                        </div>
+                        <div class="form-group">
+                            <label class="label p-md mb-3">Email*</label>
+                            <input [ngClass]="{ 'is-invalid': submitted && login.email.errors }" type="email"
+                                class="input-field form-control p-md" formControlName="email" required
+                                placeholder="Inserisci email" />
+                            <div *ngIf="submitted && login.email.errors" class="font-spacing invalid-feedback">
+                                <div *ngIf="login.email.errors.required">Campo richiesto</div>
+                                <div *ngIf="login.email.errors.email">Inserisci email</div>
+                            </div>
+                        </div>
+                        <div class="distance-field form-group">
+                            <label class="label p-md mb-3">Password*</label>
+                            <div class="wrap-icon">
+                                <input required [ngClass]="{ 'is-invalid': submitted && login.password.errors }"
+                                    class="input-field form-control p-md" formControlName="password"
+                                    placeholder="Inserisci password" [type]="hidePassword ? 'password' : 'text'" />
+                                <img (click)="eyePassword()" class="eye"
+                                    [src]="hidePassword ? '../../../assets/icons/hidden.png' : '../../../assets/icons/show.png'"
+                                    alt="hidden" />
+                                <div *ngIf="submitted && login.password.errors" class="font-spacing invalid-feedback">
+                                    <div *ngIf="login.password.errors.required">Campo richiesto</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-btn">
+                            <app-button [disabled]="submitted && loginForm.invalid" color="primary">Login</app-button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

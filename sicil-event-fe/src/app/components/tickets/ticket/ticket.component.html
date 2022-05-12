@@ -1,0 +1,21 @@
+<mat-card class="card mt-3">
+    <div *ngIf="ticket" class="row">
+        <div *ngIf="ticket.status === 'NOTPAID'" (click)="goToEdit()" class="col-sm-12 container-icon">
+            <img src="../../../assets/icons/edit.svg" alt="edit">
+        </div>
+        <div class="col-6">
+            <p class="label-head">ID Sale</p>
+            <p class="label-head">Nome</p>
+            <p class="label-head">Cognome</p>
+            <p class="label-head">Tipologia</p>
+            <p class="label-head" *ngIf="ticket.status === 'PAID'">Pagato</p>
+        </div>
+        <div class="col-6">
+            <p>{{ ticket.idSale ? ticket.idSale : '-'}}</p>
+            <p>{{ticket.name ? ticket.name : '-'}}</p>
+            <p>{{ticket.surname ? ticket.surname : '-'}}</p>
+            <p>{{ticket.type ? ticket.type : '-'}}</p>
+            <p *ngIf="ticket.status && ticket.status === 'PAID'">{{ ticket.status ? ticket.status : '-'}}</p>
+        </div>
+    </div>
+</mat-card>

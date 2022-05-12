@@ -1,0 +1,119 @@
+<div class="container-fluid">
+    <div class="row w-100">
+        <div class="back-bar">
+            <img (click)="back()" height="40" width="40" src="../../../../assets/icons/arrow.svg"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-lg-6">
+            <p class="title">VENDI UN BIGLIETTO</p>
+            <form class="p-custom" [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-10 offset-1 col-md-8 offset-md-2">
+                        <div class="form-group">
+                            <label class="custom-label label p-md">Nome*</label>
+                            <input 
+                                [ngClass]="{ 'is-invalid': submitted && ticketFM.name.errors }"  
+                                type="text" 
+                                class="input-field form-control p-md" 
+                                formControlName="name" 
+                                required
+                                placeholder="Inserisci nome"
+                            />
+                            <div *ngIf="submitted && ticketFM.name.errors" class="d-inline-flex justify-content-end invalid-feedback">
+                                <div *ngIf="ticketFM.name.errors.required">Campo richiesto</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label label p-md">Cognome*</label>
+                            <input 
+                                [ngClass]="{ 'is-invalid': submitted && ticketFM.surname.errors }"  
+                                type="text" 
+                                class="input-field form-control p-md" 
+                                formControlName="surname" 
+                                required
+                                placeholder="Inserisci surname"
+                            />
+                            <div *ngIf="submitted && ticketFM.surname.errors" class="d-inline-flex justify-content-end invalid-feedback">
+                                <div *ngIf="ticketFM.surname.errors.required">Campo richiesto</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label label p-md">Email*</label>
+                            <input 
+                                [ngClass]="{ 'is-invalid': submitted && ticketFM.email.errors }"  
+                                type="email" 
+                                class="input-field form-control p-md" 
+                                formControlName="email" 
+                                required
+                                placeholder="Inserisci email"
+                            />
+                            <div *ngIf="submitted && ticketFM.email.errors" class="d-inline-flex justify-content-end invalid-feedback">
+                                <div *ngIf="ticketFM.email.errors.required">Campo richiesto</div>
+                                <div *ngIf="ticketFM.email.errors.email">Inserisci email</div>
+                            </div>
+                        </div>
+                        <div class="custom-select form-group">
+                            <label class="custom-label label p-md">Tipologia*</label>
+                            <mat-form-field appearance="fill">
+                                <!-- <mat-label>Favorite food</mat-label> -->
+                                <mat-select 
+                                    placeholder="Scegli la tipologia" 
+                                    [ngClass]="{ 'is-invalid': submitted && ticketFM.tipology.errors }" 
+                                    formControlName="tipology">
+                                  <mat-option *ngFor="let type of typologies" [value]="type">
+                                    {{ type }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            <!-- <input 
+                                [ngClass]="{ 'is-invalid': submitted && ticketFM.tipology.errors }"  
+                                type="text" 
+                                class="input-field form-control p-md" 
+                                formControlName="tipology" 
+                                required
+                                placeholder="Inserisci tipologia"
+                            /> -->
+                            <div *ngIf="submitted && ticketFM.tipology.errors" class="d-inline-flex justify-content-end invalid-feedback">
+                                <div *ngIf="ticketFM.tipology.errors.required">Campo richiesto</div>
+                            </div>
+                        </div>
+                        <div class="shift-wrapper w-100 form-group">
+                            <label class="label p-md">Pagato*</label>
+                            <input
+                                #payCheckbox
+                                [ngClass]="{ 'is-invalid': submitted && ticketFM.pay.errors }"  
+                                type="checkbox" 
+                                class="float-end pay-checkbox input-field p-md" 
+                                formControlName="pay" 
+                            />
+                        </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            <app-button [disabled]="submitted && ticketForm.invalid" color="secondary">VENDI</app-button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- <div class="col-sm-12">
+            <label for="name">Nome</label>
+            <input class="form-control" placeholder="Inserire nome" required  type="text" name="name" id="name"/>
+        </div>
+        <div class="col-sm-12">
+            <label for="name">Cognome</label>
+            <input class="form-control" placeholder="Inserire cognome" required  type="text" name="surname" id="name"/>
+        </div>
+        <div class="col-sm-12">
+            <label for="name">Tipologia</label>
+            <input class="form-control" placeholder="Inserire tipologia" required  type="text" name="type" id="name"/>
+        </div>
+        <div class="col-sm-12">
+            <label for="name">Email</label>
+            <input class="form-control" placeholder="Inserire email" required  type="text" name="surname" id="name"/>
+        </div>
+        <div class="col-sm-12">
+            <label for="name">Pagato</label>
+            <input class="form-control" required  type="checkbox" name="pay" id="name"/>
+        </div> -->
+    </div>
+</div>

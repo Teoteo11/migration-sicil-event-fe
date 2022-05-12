@@ -1,0 +1,18 @@
+@import '../../../../assets/styles/variables.scss';
+@import '../../../../assets/styles/variables.scss';
+
+.card {
+    border-bottom: 1px solid $color-primary;
+    padding-left: toRem(32);
+    padding-bottom: toRem(30);
+    
+    .container-icon  {
+        display: inline-flex;
+        justify-content: flex-end;
+        margin-bottom: toRem(24);
+    }
+
+    .label-head {
+        font-weight: bold;
+    }
+}

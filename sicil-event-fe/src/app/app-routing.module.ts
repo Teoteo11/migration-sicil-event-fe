@@ -4,6 +4,7 @@ import { ChooseRoleComponent } from './components/choose-role/choose-role.compon
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { LoginComponent } from './components/login/login.component';
 import { EditTicketComponent } from './components/tickets/edit-ticket/edit-ticket.component';
+import { ListTicketsComponent } from './components/tickets/list-tickets/list-tickets.component';
 import { SellTicketComponent } from './components/tickets/sell-ticket/sell-ticket.component';
 import { CommonGuard } from './guards/common.guard';
 import { LoginGuard } from './guards/login.guard';
@@ -29,11 +30,6 @@ const routes: Routes = [
     component: HomepageComponent,
     canActivate: [CommonGuard],
   },
-  // {
-  //   path: 'edit-ticket',
-  //   component: EditTicketComponent,
-  //   canActivate: [CommonGuard]
-  // },
   { 
     path: 'homepage/:id', 
     component: EditTicketComponent, 
@@ -44,6 +40,11 @@ const routes: Routes = [
     component: SellTicketComponent,
     canActivate: [CommonGuard]
   },
+  {
+    path: 'tickets',
+    component: ListTicketsComponent,
+    canActivate: [CommonGuard]
+  }
 
 ]
 

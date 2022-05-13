@@ -25,6 +25,9 @@ export class ListTicketsComponent implements OnInit {
 
     ngOnInit() {
         this.role = this.cookieService.get('role');
+        if (this.role === Role.ADMIN) {
+            console.log('CIAO ADMIN')
+        }
     }
 
     findSomeName = (nameOrSurname: string) => this.originalTickets.some( ({name, surname}) => (name === nameOrSurname || surname === nameOrSurname));

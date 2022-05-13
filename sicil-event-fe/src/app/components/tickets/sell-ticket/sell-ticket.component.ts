@@ -55,7 +55,6 @@ export class SellTicketComponent implements OnInit {
         email: this.ticketForm.get('email').value,
         status: this.ticketForm.get('pay').value === true ? Status.PAID : Status.NOTPAID,
       }
-      console.log('SELL TICKET: ',ticket);
       if (ticket) {
         this.submitted = false;
         await this.ticketService.sellTicket(ticket) && this.router.navigate(['homepage']);

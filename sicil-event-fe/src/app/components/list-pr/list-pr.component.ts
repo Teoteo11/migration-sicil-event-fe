@@ -15,14 +15,14 @@ export class ListPRComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   
   ngOnChanges(changes: SimpleChanges) {
     this.listPR = changes.listPR.currentValue;
   }
 
   goToPR = () => {
+    this.router.navigate(['tickets']);
     // this.changeView.emit(true);
     // this.commonService.newEvent(true);
   }

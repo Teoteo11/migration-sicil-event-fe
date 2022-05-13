@@ -22,8 +22,8 @@ export class TicketsService {
     getTickets = async () =>
         await this.http.get<Ticket[]>(`${environment.url}/ticket/${this.cookieService.get('id')}/prtickets`).toPromise();
 
-    updateTicket = (idTicket: string) =>
-        this.http.post<any>(`${environment.url}/ticket/${this.cookieService.get('id')}/update`, { idTicket: idTicket });
+    updateTicket = async (idTicket: string) =>
+        await this.http.post<any>(`${environment.url}/ticket/${this.cookieService.get('id')}/update`, { idTicket: idTicket }).toPromise();
 
     sellTicket = async (ticket: PayloadTicket) =>
         await this.http.post<PayloadTicket>(`${environment.url}/ticket/${this.cookieService.get('id')}/sell`, ticket).toPromise();

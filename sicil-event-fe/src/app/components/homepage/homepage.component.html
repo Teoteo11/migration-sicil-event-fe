@@ -4,8 +4,7 @@
 <app-btn-ticket></app-btn-ticket>
 <ng-container [ngSwitch]="role">
     <ng-container *ngSwitchCase="'ADMIN'">
-        <!-- TODO -->
-      <!-- <app-list-pr [listPR]="listPR"></app-list-pr> -->
+      <app-list-pr [listPR]="listPR"></app-list-pr>
     </ng-container>
     <ng-container *ngSwitchCase="'PR'">
         <app-list-tickets [tickets]="tickets"></app-list-tickets>

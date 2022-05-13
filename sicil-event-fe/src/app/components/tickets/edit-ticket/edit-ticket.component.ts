@@ -13,6 +13,7 @@ import { TicketsService } from 'src/app/services/tickets.service';
 export class EditTicketComponent implements OnInit {
 
   ticket: Ticket = undefined;
+  isClicked = false;
   error = '';
 
   constructor(private router: Router,
@@ -33,17 +34,20 @@ export class EditTicketComponent implements OnInit {
   back = () => this.router.navigate(['homepage']);
 
   changeStatus = async () => {
-    console.log('ciao');
-    this.ticketService.updateTicket(this.ticket._id)
-      .subscribe(
-        item => {
-          if (item) {
-            this.snackBar.open('BIGLIETTO VENDUTO', 'X', { duration: 1500, panelClass: ['custom-snackbar-complete'] });
-            this.router.navigate(['homepage'])
-          }
-        },
-        error => this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] })
-      );
+    try {
+      if (this.isClicked) return;
+      this.isClicked = true;
+      const res = await this.ticketService.updateTicket(this.ticket._id);
+      if (res) {
+        this.snackBar.open('BIGLIETTO VENDUTO', 'X', { duration: 1500, panelClass: ['custom-snackbar-complete'] });
+        this.router.navigate(['homepage']);
+      }
+      setTimeout(() => {
+        this.isClicked = false;
+      }, 0);
+    } catch (error) {
+      error && this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] })
+    }
   }
 
 

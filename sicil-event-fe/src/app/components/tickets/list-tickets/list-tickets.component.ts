@@ -72,43 +72,10 @@ export class ListTicketsComponent implements OnInit {
         //? TIPOLOGIA
         if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
             this.tickets = filteredTicketsTab.filter( ({type}) => type === this.textValue );
-        }
-        // if (this.role === Role.RECEPTIONIST || this.role === Role.ADMIN) {
-        //     if (this.textValue === '') {
-        //         this.tickets = [...this.originalTickets];
-        //         return;
-        //     }
-        //     //IDSALE
-        //     this.findSomeIdSale(this.textValue) && (this.tickets = this.originalTickets.filter( ({idSale}) => idSale === this.textValue)).filter( item => item.status === this.sendFieldToFilter);
-        //     //NAME - SURNAME
-        //     this.findSomeName(this.textValue) && (this.tickets = this.originalTickets.filter( ({name, surname}) => (name === this.textValue || surname === this.textValue))).filter( item => item.status === this.sendFieldToFilter);;
-        //     // TYPE
-        //     if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
-        //         this.tickets = this.originalTickets.filter( ({type}) => type === this.textValue ).filter( item => item.status === this.sendFieldToFilter);;
-        //     }
-        //     // STATUS
-        //     if (this.textValue === Status.PAID || this.textValue === Status.NOTPAID) {
-        //         this.tickets = this.originalTickets.filter( ({status}) => status === this.textValue ).filter( item => item.status === this.sendFieldToFilter);;
-        //     }
-        //     return;
-        // }
-        // if (this.textValue === '') {
-        //     this.tickets = this.originalTickets.filter( item => item.status ===  this.sendFieldToFilter);
-        //     return;
-        // }
-        // let temp = this.textValue;
-        // temp = this.textValue.toLowerCase();
-        // if (this.sendFieldToFilter === Status.PAID) {
-        //     this.controlFilter(temp, this.sendFieldToFilter);
-        // } else if (this.sendFieldToFilter === Status.NOTPAID) {
-        //     this.controlFilter(temp, this.sendFieldToFilter);
-        // } else {
-        //     this.controlFilter(temp, (this.sendFieldToFilter) as any);
-        // }
+        } 
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        console.log("🚀 changes", changes)
         if (changes) {
             if (changes.tickets && changes.tickets.currentValue) {
                 this.tickets = changes.tickets.currentValue;

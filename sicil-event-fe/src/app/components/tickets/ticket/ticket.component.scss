@@ -3,8 +3,7 @@
 
 .card {
     border-bottom: 1px solid $color-primary;
-    padding-left: toRem(32);
-    padding-bottom: toRem(30);
+    padding: toRem(30) toRem(32);
     
     .container-icon  {
         display: inline-flex;

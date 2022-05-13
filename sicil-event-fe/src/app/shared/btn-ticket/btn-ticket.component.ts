@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Role } from 'src/app/models/user';
 
@@ -12,10 +13,11 @@ import { Role } from 'src/app/models/user';
 export class BtnTicketComponent implements OnInit {
 
   url = '';
+  routeSub: Subscription;
 
   constructor(private router: Router,
     private cookieService: CookieService) {
-    router.events.pipe(
+    this.routeSub = router.events.pipe(
       filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => this.url = event.url);
   }
@@ -26,5 +28,9 @@ export class BtnTicketComponent implements OnInit {
   sellTicket = () => this.router.navigate(['sell-ticket']);
 
   showBtn = () => this.url === '/homepage' && (this.cookieService.get('role') && this.cookieService.get('role') === Role.PR);
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
+  }
 
 }

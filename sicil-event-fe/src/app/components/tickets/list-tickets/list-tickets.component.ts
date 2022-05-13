@@ -1,8 +1,11 @@
 import { Location } from '@angular/common';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { Ticket, Type, Status } from 'src/app/models/ticket';
 import { Role } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
@@ -13,7 +16,6 @@ import { TicketsService } from 'src/app/services/tickets.service';
 
 export class ListTicketsComponent implements OnInit {
 
-    // @Input() fieldFilter: 'PAID' | 'NOTPAID' | 'GIFT';
     @Input() tickets: Ticket[];
 
     originalTickets: Ticket[] = [];
@@ -21,64 +23,88 @@ export class ListTicketsComponent implements OnInit {
     textValue: string;
     role: string;
 
-    constructor(private location: Location, private cookieService: CookieService) { }
+    constructor(private location: Location, 
+                private route: ActivatedRoute,
+                private snackBar: MatSnackBar,
+                private authService: AuthService,
+                private ticketService: TicketsService,
+                private cookieService: CookieService) { }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.role = this.cookieService.get('role');
         if (this.role === Role.ADMIN) {
-            console.log('CIAO ADMIN')
+            if (!this.tickets) {
+                try {
+                    if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.id) {
+                        this.tickets = await this.ticketService.getTicketsOfSpecificPR(this.route.snapshot.queryParams.id);
+                        this.originalTickets = [...this.tickets];
+                        this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID);      
+                    }
+                } catch (error) {
+                    this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] });
+                }
+            }
         }
     }
 
-    findSomeName = (nameOrSurname: string) => this.originalTickets.some( ({name, surname}) => (name === nameOrSurname || surname === nameOrSurname));
+    findSomeNameOrSurname = (nameOrSurname: string) => this.originalTickets.some( ({name, surname}) => (name === nameOrSurname || surname === nameOrSurname));
 
-    findSomeIdSale = (idSale: string) => this.originalTickets.some( ({idSale}) => idSale === idSale);
-
-
-    controlFilter = (filterfield: string, type: 'PAID' | 'NOTPAID' | 'GIFT') => {
-        if (filterfield === Type.BACKSTAGE || filterfield === Type.DANCE_FLOOR) {
-            this.tickets = this.originalTickets.filter( ({type}) => type === filterfield ).filter( ({status}) => status === type);
-        } else if (this.findSomeName(filterfield)) {
-            this.tickets = this.originalTickets.filter( item => (item.name === filterfield || item.surname === filterfield))
-                                               .filter( ({status}) => status === type );
-        } else {
-            this.tickets = this.originalTickets.filter( ({idSale}) => idSale === filterfield );
-        }
-    } 
+    findSomeIdSale = (idSaleParam: string) => this.originalTickets.some( ({idSale}) => idSale === idSaleParam.toLowerCase());
     
     filterArray = () => {
-        if (this.role === Role.RECEPTIONIST) {
-            if (this.textValue === '') {
-                this.tickets = [...this.originalTickets];
-                return;
-            }
-            //IDSALE
-            this.findSomeIdSale(this.textValue) && (this.tickets = this.originalTickets.filter( ({idSale}) => idSale === this.textValue));
-            //NAME - SURNAME
-            this.findSomeName(this.textValue) && (this.tickets = this.originalTickets.filter( ({name, surname}) => (name === this.textValue || surname === this.textValue)));
-            // TYPE
-            if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
-                this.tickets = this.originalTickets.filter( ({type}) => type === this.textValue );
-            }
-            // STATUS
-            if (this.textValue === Status.PAID || this.textValue === Status.NOTPAID) {
-                this.tickets = this.originalTickets.filter( ({status}) => status === this.textValue );
-            }
-            return;
-        }
+        const filteredTicketsTab = this.originalTickets.filter( ({status, type}) => (status === this.sendFieldToFilter || type === this.sendFieldToFilter));
+        //? NO FILTER
         if (this.textValue === '') {
-            this.tickets = this.originalTickets.filter( item => item.status ===  this.sendFieldToFilter);
+            this.tickets = [...filteredTicketsTab];
             return;
         }
-        let temp = this.textValue;
-        temp = this.textValue.toLowerCase();
+        //? IDSALE
         if (this.sendFieldToFilter === Status.PAID) {
-            this.controlFilter(temp, this.sendFieldToFilter);
-        } else if (this.sendFieldToFilter === Status.NOTPAID) {
-            this.controlFilter(temp, this.sendFieldToFilter);
-        } else {
-            this.controlFilter(temp, (this.sendFieldToFilter) as any);
+            // TODO serve la modifica al BE che mette gli idSale o tutto UPPERCASE o tutto LOWERCASE
+            if (this.findSomeIdSale(this.textValue)) {
+                this.tickets = filteredTicketsTab.filter(({idSale}) => idSale === this.textValue.toLowerCase());
+            }
         }
+        //? NAME -SURNAME
+        if (this.findSomeNameOrSurname(this.textValue)) {
+            this.tickets = filteredTicketsTab.filter( ({name, surname}) => ( name === this.textValue || surname === this.textValue));
+        }
+        //? TIPOLOGIA
+        if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
+            this.tickets = filteredTicketsTab.filter( ({type}) => type === this.textValue );
+        }
+        // if (this.role === Role.RECEPTIONIST || this.role === Role.ADMIN) {
+        //     if (this.textValue === '') {
+        //         this.tickets = [...this.originalTickets];
+        //         return;
+        //     }
+        //     //IDSALE
+        //     this.findSomeIdSale(this.textValue) && (this.tickets = this.originalTickets.filter( ({idSale}) => idSale === this.textValue)).filter( item => item.status === this.sendFieldToFilter);
+        //     //NAME - SURNAME
+        //     this.findSomeName(this.textValue) && (this.tickets = this.originalTickets.filter( ({name, surname}) => (name === this.textValue || surname === this.textValue))).filter( item => item.status === this.sendFieldToFilter);;
+        //     // TYPE
+        //     if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
+        //         this.tickets = this.originalTickets.filter( ({type}) => type === this.textValue ).filter( item => item.status === this.sendFieldToFilter);;
+        //     }
+        //     // STATUS
+        //     if (this.textValue === Status.PAID || this.textValue === Status.NOTPAID) {
+        //         this.tickets = this.originalTickets.filter( ({status}) => status === this.textValue ).filter( item => item.status === this.sendFieldToFilter);;
+        //     }
+        //     return;
+        // }
+        // if (this.textValue === '') {
+        //     this.tickets = this.originalTickets.filter( item => item.status ===  this.sendFieldToFilter);
+        //     return;
+        // }
+        // let temp = this.textValue;
+        // temp = this.textValue.toLowerCase();
+        // if (this.sendFieldToFilter === Status.PAID) {
+        //     this.controlFilter(temp, this.sendFieldToFilter);
+        // } else if (this.sendFieldToFilter === Status.NOTPAID) {
+        //     this.controlFilter(temp, this.sendFieldToFilter);
+        // } else {
+        //     this.controlFilter(temp, (this.sendFieldToFilter) as any);
+        // }
     }
 
     ngOnChanges(changes: SimpleChanges) {

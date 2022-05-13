@@ -21,10 +21,6 @@ export class ListPRComponent implements OnInit {
     this.listPR = changes.listPR.currentValue;
   }
 
-  goToPR = () => {
-    this.router.navigate(['tickets']);
-    // this.changeView.emit(true);
-    // this.commonService.newEvent(true);
-  }
+  goToPR = (idPr: string) => this.router.navigate(['tickets'], {queryParams: {id: idPr}});
 
 }

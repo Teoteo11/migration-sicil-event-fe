@@ -1,5 +1,7 @@
 <div class="container-admin">
+  <ng-container *ngIf="url !== '/choose-role' && url !== '/login' && url !== '/sell-ticket'">
+    <app-navbar></app-navbar>
+  </ng-container>
   <router-outlet></router-outlet>
-  <!-- <app-loader></app-loader>
-  <app-btn-ticket></app-btn-ticket> -->
+  <app-loader></app-loader>
 </div>

@@ -1,6 +1,6 @@
 <mat-card class="card mt-3">
     <div *ngIf="ticket" class="row">
-        <div *ngIf="ticket.status === 'NOTPAID' && role !== 'RECEPTIONIST'" (click)="edit()" class="col-sm-12 container-icon">
+        <div *ngIf="ticket.status === 'NOTPAID' && role === 'PR'" (click)="edit()" class="col-sm-12 container-icon">
             <img src="../../../assets/icons/edit.svg" alt="edit">
         </div>
         <div *ngIf="role === 'RECEPTIONIST'" (click)="delete()" class="col-sm-12 container-icon">

@@ -22,6 +22,9 @@ export class TicketsService {
     getTickets = async () =>
         await this.http.get<Ticket[]>(`${environment.url}/ticket/${this.cookieService.get('id')}/prtickets`).toPromise();
 
+    getTicketsOfSpecificPR = async (idPr: string) => 
+        await this.http.get<Ticket[]>(`${environment.url}/ticket/${idPr}/prtickets`).toPromise();
+
     updateTicket = async (idTicket: string) =>
         await this.http.post<any>(`${environment.url}/ticket/${this.cookieService.get('id')}/update`, { idTicket: idTicket }).toPromise();
 

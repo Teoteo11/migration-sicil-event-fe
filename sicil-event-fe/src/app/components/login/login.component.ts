@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { AuthService } from 'src/app/services/auth.service';
+import { CommonService } from 'src/app/services/common.service';
 import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private cookieService: CookieService,
+    private commonService: CommonService,
     private snackBar: MatSnackBar,
     private ticketService: TicketsService) { }
 
@@ -48,6 +50,7 @@ export class LoginComponent implements OnInit {
     try {
       const res = await this.authService.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
       res && (
+        this.commonService.newEvent(res.name),
         this.ticketService.containerTickets = res.ticketSold,
         this.authService.storeAuthData(res),
         this.router.navigate(['homepage'])

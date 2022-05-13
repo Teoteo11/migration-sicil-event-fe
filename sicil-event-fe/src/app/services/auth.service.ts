@@ -43,7 +43,6 @@ export class AuthService {
   isLoggedIn = (): boolean => this.cookieService.get('accessToken') ? true : false;
 
   handleErrorStatus = (error): string => {
-    console.log('AUTH SERVICE - ERROR: ', error);
     switch (error.status) {
       case 400:
         return 'Campi spediti errati'
@@ -67,6 +66,7 @@ export class AuthService {
       // const accessTokenExpire = (Math.trunc(Date.now() / 1000)) + authenticationData.expiresIn;
       this.cookieService.put('accessToken', authenticationData.accessToken);
       this.cookieService.put('id', authenticationData._id);
+      this.cookieService.put('name', authenticationData.name);
       // this.cookieService.put('accessTokenExpiry', String(authenticationData.expiresIn));
       // this.cookieService.put('accessTokenExpireAt', String(accessTokenExpire));
       this.cookieService.put('refreshToken', authenticationData.refreshToken);

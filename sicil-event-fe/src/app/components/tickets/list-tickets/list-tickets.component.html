@@ -1,9 +1,12 @@
 <div class="row m-0 container-tickets">
-    <div *ngIf="role !== 'RECEPTIONIST'">
+    <ng-container *ngIf="role === 'ADMIN'">
+        <app-counter-total [totalTickets]="originalTickets.length"></app-counter-total>
+    </ng-container>
+    <ng-container *ngIf="role !== 'RECEPTIONIST'">
         <app-filter-bar (triggerTab)="receiveTabChoosed($event)"></app-filter-bar>
-    </div>
+    </ng-container>
     <div class="col-sm-12 mt-1 d-inline-flex justify-content-between align-items-center">
-        <p class="total-specific-tickets">Biglietti: {{tickets.length}}</p>
+        <p class="total-specific-tickets">Biglietti: {{tickets && tickets.length ? tickets.length : 0}}</p>
         <div>
             <input 
             class="field-input" 

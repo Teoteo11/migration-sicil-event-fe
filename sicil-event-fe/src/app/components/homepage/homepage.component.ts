@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie';
 import { Ticket } from 'src/app/models/ticket';
@@ -20,6 +20,11 @@ export class HomepageComponent implements OnInit {
   tickets: Ticket[] = [];
   listPR: Pr[] = [];
 
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    return;
+  }
+
   constructor(private cookieService: CookieService,
               private snackBar: MatSnackBar,
               private authService: AuthService,
@@ -36,7 +41,6 @@ export class HomepageComponent implements OnInit {
           this.totalTickets = this.tickets.length;
         } else if (this.role === Role.ADMIN) {
           // ADMIN
-          console.log('admin');
           this.listPR = await this.prService.getPrOfAdmin();
         } else {
           // RECEPTIONIST

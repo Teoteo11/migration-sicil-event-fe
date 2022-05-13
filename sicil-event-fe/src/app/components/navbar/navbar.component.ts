@@ -1,8 +1,12 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Role } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { CommonService } from 'src/app/services/common.service';
 // import { CommonService } from 'src/app/services/common.service';
 
 @Component({
@@ -12,15 +16,23 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  showArrowBack = false;
+  name = '';
+  url = '';
+  routeSub: Subscription;
 
   constructor(private authService: AuthService, 
               private router: Router,
-              // private commonService: CommonService,
-              private cookieService: CookieService) {}
+              private location: Location,
+              private commonService: CommonService,
+              private cookieService: CookieService) {
+                this.routeSub = router.events.pipe(
+                  filter(event => event instanceof NavigationEnd))
+                  .subscribe((event: NavigationEnd) => this.url = event.url);
+              }
 
   ngOnInit(): void {
-    // this.commonService.events$.forEach(event => this.showArrowBack = event);
+    this.commonService.events$.forEach(event => this.name = event);
+    this.name = this.cookieService.get('name') ? this.cookieService.get('name') : 'SicilEvents' ;
   }
 
   logout = () => this.authService.logout();
@@ -29,9 +41,13 @@ export class NavbarComponent implements OnInit {
 
   showTabSell = () => this.cookieService.get('role') === Role.PR;
 
-  back = () => {
-    this.router.navigate(['homepage'])
-    // this.commonService.newEvent(false);
+  back = () => this.location.back();
+
+  showArrowBack = () => this.cookieService.get('role') === Role.ADMIN && this.url.includes('tickets');
+
+  ngOnDestroy() {
+    routeSub: Subscription;
   }
+  
 
 }

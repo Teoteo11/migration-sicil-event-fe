@@ -27,6 +27,7 @@ import { FilterBarComponent } from './shared/filter-bar/filter-bar.component';
 import { ListTicketsComponent } from './components/tickets/list-tickets/list-tickets.component';
 import { TicketComponent } from './components/tickets/ticket/ticket.component';
 import { EditTicketComponent } from './components/tickets/edit-ticket/edit-ticket.component';
+import { ListPRComponent } from './components/list-pr/list-pr.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { EditTicketComponent } from './components/tickets/edit-ticket/edit-ticke
     ListTicketsComponent,
     TicketComponent,
     EditTicketComponent,
+    ListPRComponent,
   ],
   imports: [
     BrowserModule,

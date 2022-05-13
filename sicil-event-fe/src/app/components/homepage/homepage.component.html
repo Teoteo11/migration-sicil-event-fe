@@ -3,13 +3,14 @@
 <app-counter-total [totalTickets]="totalTickets"></app-counter-total>
 <app-btn-ticket></app-btn-ticket>
 <ng-container [ngSwitch]="role">
-    <ng-container class="wrapper-section" *ngSwitchCase="'ADMIN'">
-        <h1>Ciao Admin</h1>
+    <ng-container *ngSwitchCase="'ADMIN'">
+        <!-- TODO -->
+      <!-- <app-list-pr [listPR]="listPR"></app-list-pr> -->
     </ng-container>
-    <ng-container class="wrapper-section" *ngSwitchCase="'PR'">
+    <ng-container *ngSwitchCase="'PR'">
         <app-list-tickets [tickets]="tickets"></app-list-tickets>
     </ng-container>
-    <ng-container class="wrapper-section" *ngSwitchCase="'RECEPTIONIST'">
+    <ng-container *ngSwitchCase="'RECEPTIONIST'">
         <app-list-tickets [tickets]="tickets"></app-list-tickets>
     </ng-container>
 </ng-container>

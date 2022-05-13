@@ -1,5 +1,7 @@
 <div class="row m-0 container-tickets">
-    <app-filter-bar (triggerTab)="receiveTabChoosed($event)"></app-filter-bar>
+    <div *ngIf="role !== 'RECEPTIONIST'">
+        <app-filter-bar (triggerTab)="receiveTabChoosed($event)"></app-filter-bar>
+    </div>
     <div class="col-sm-12 mt-1 d-inline-flex justify-content-between align-items-center">
         <p class="total-specific-tickets">Biglietti: {{tickets.length}}</p>
         <div>
@@ -15,8 +17,10 @@
         </div>
     </div>
     <ng-container *ngIf="tickets && tickets.length > 0; else noTickets">
-        <div *ngFor="let ticket of tickets" class="col-sm-12">
-            <app-ticket [ticket]="ticket"></app-ticket>
+        <div class="wrapper-tickets">
+            <div *ngFor="let ticket of tickets" class="col-sm-12">
+                <app-ticket [ticket]="ticket"></app-ticket>
+            </div>
         </div>
     </ng-container>
     <ng-template #noTickets>

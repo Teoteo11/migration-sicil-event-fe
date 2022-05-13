@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie';
 import { Ticket } from 'src/app/models/ticket';
+import { AuthService } from 'src/app/services/auth.service';
+import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
   selector: 'app-ticket',
@@ -10,15 +14,30 @@ import { Ticket } from 'src/app/models/ticket';
 export class TicketComponent implements OnInit {
 
   @Input() ticket: Ticket;
+  role = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+              private authService: AuthService,
+              private snackBar: MatSnackBar,
+              private ticketService: TicketsService,
+              private cookieService: CookieService) {}
 
   ngOnInit(): void {
+    this.role = this.cookieService.get('role');
   }
 
-  goToEdit = () => {
-    console.log('ticket: ',this.ticket);
-    this.router.navigate([`edit-ticket/${this.ticket._id}`], {state: { ticket: this.ticket}})
+  edit = () => this.router.navigate(['homepage', this.ticket._id]);
+
+  delete = async () => {
+    try {
+      await this.ticketService.deleteTicket(this.ticket._id) && (
+        this.router.navigate(['homepage']),
+        this.snackBar.open('BIGLIETTO RIMOSSO', 'X', { duration: 1500, panelClass: ['custom-snackbar-complete'] })
+      )
+    } catch (error) {
+      this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar-complete'] })
+    }
   }
+  
 
 }

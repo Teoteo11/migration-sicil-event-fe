@@ -6,6 +6,8 @@
     background-color: $color-secondary;
     display: inline-flex;
     justify-content: center;
+    position: sticky;
+    top: 0;
 
     .counter {
         font-family: "Social Gothic", Arial, Helvetica, sans-serif;

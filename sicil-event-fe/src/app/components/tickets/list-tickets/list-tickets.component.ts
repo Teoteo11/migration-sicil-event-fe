@@ -19,35 +19,62 @@ export class ListTicketsComponent implements OnInit {
     originalTickets: Ticket[] = [];
     sendFieldToFilter: string = 'NOTPAID';
     textValue: string;
+    role: string;
 
-    constructor(private location: Location) { }
+    constructor(private location: Location, private cookieService: CookieService) { }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.role = this.cookieService.get('role');
+    }
 
     findSomeName = (nameOrSurname: string) => this.originalTickets.some( ({name, surname}) => (name === nameOrSurname || surname === nameOrSurname));
 
-    controlFilter = (type: 'PAID' | 'NOTPAID' | 'GIFT') => {
-        if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
-            this.tickets = this.originalTickets.filter( ({type}) => type === this.textValue ).filter( ({status}) => status === type);
-        } else if (this.findSomeName(this.textValue)) {
-            this.tickets = this.originalTickets.filter( item => (item.name === this.textValue || item.surname === this.textValue))
+    findSomeIdSale = (idSale: string) => this.originalTickets.some( ({idSale}) => idSale === idSale);
+
+
+    controlFilter = (filterfield: string, type: 'PAID' | 'NOTPAID' | 'GIFT') => {
+        if (filterfield === Type.BACKSTAGE || filterfield === Type.DANCE_FLOOR) {
+            this.tickets = this.originalTickets.filter( ({type}) => type === filterfield ).filter( ({status}) => status === type);
+        } else if (this.findSomeName(filterfield)) {
+            this.tickets = this.originalTickets.filter( item => (item.name === filterfield || item.surname === filterfield))
                                                .filter( ({status}) => status === type );
         } else {
-            this.tickets = this.originalTickets.filter( ({idSale}) => idSale === this.textValue );
+            this.tickets = this.originalTickets.filter( ({idSale}) => idSale === filterfield );
         }
     } 
     
     filterArray = () => {
+        if (this.role === Role.RECEPTIONIST) {
+            if (this.textValue === '') {
+                this.tickets = [...this.originalTickets];
+                return;
+            }
+            //IDSALE
+            this.findSomeIdSale(this.textValue) && (this.tickets = this.originalTickets.filter( ({idSale}) => idSale === this.textValue));
+            //NAME - SURNAME
+            this.findSomeName(this.textValue) && (this.tickets = this.originalTickets.filter( ({name, surname}) => (name === this.textValue || surname === this.textValue)));
+            // TYPE
+            if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
+                this.tickets = this.originalTickets.filter( ({type}) => type === this.textValue );
+            }
+            // STATUS
+            if (this.textValue === Status.PAID || this.textValue === Status.NOTPAID) {
+                this.tickets = this.originalTickets.filter( ({status}) => status === this.textValue );
+            }
+            return;
+        }
         if (this.textValue === '') {
             this.tickets = this.originalTickets.filter( item => item.status ===  this.sendFieldToFilter);
             return;
         }
+        let temp = this.textValue;
+        temp = this.textValue.toLowerCase();
         if (this.sendFieldToFilter === Status.PAID) {
-            this.controlFilter(this.sendFieldToFilter);
+            this.controlFilter(temp, this.sendFieldToFilter);
         } else if (this.sendFieldToFilter === Status.NOTPAID) {
-            this.controlFilter(this.sendFieldToFilter);
+            this.controlFilter(temp, this.sendFieldToFilter);
         } else {
-            this.controlFilter((this.sendFieldToFilter) as any);
+            this.controlFilter(temp, (this.sendFieldToFilter) as any);
         }
     }
 
@@ -56,19 +83,10 @@ export class ListTicketsComponent implements OnInit {
             if (changes.tickets && changes.tickets.currentValue) {
                 this.tickets = changes.tickets.currentValue;
                 this.originalTickets = [...this.tickets];
-                this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID);
+                if (this.role !== Role.RECEPTIONIST) {
+                    this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID);
+                }
             }
-            // if (changes.fieldFilter && changes.fieldFilter.currentValue) {
-            //     if (changes.fieldFilter.currentValue === Status.NOTPAID) {
-            //         this.sectionActivated = Status.NOTPAID;
-            //         this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID);
-            //     } else if (changes.fieldFilter.currentValue === Status.PAID) {
-            //         this.sectionActivated = Status.PAID;
-            //         this.tickets = this.originalTickets.filter(item => item.status === Status.PAID && item.type !== Type.GIFT);
-            //     } else {
-            //         this.tickets = this.originalTickets.filter(item => item.status === Status.PAID && item.type === Type.GIFT);
-            //     }
-            // }
         }
     }
     

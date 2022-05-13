@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie';
 import { Ticket } from 'src/app/models/ticket';
 import { Role } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
@@ -17,19 +19,30 @@ export class HomepageComponent implements OnInit {
   tickets: Ticket[] = [];
 
   constructor(private cookieService: CookieService,
+              private snackBar: MatSnackBar,
+              private authService: AuthService,
               private ticketService: TicketsService) {}
 
   async ngOnInit() {
     this.role = this.cookieService.get('role') as Role;
-    //BIGLIETTI PER IL PR
-    if (this.role) {
-      if (this.role === Role.PR) {
-        this.tickets = await this.ticketService.getTickets();
-        this.totalTickets = this.tickets.length;
+    try { 
+      if (this.role) {
+        if (this.role === Role.PR) {
+          // PR
+          this.tickets = await this.ticketService.getTickets();
+          this.totalTickets = this.tickets.length;
+        } else if (this.role === Role.ADMIN) {
+          // ADMIN
+          console.log('admin');
+        } else {
+          // RECEPTIONIST
+          const data = await this.ticketService.getTicketsForReceptionists();
+          data && (this.tickets = data.tickets, this.totalTickets = data.incomingNumber);
+        }
       }
+    } catch (error) {
+      this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] });
     }
-    //LISTA PR DEGLI ADMIN E RELATIVI BIGLIETTI
-    //BIGLIETTI PER RECEPTIONIST
   }
 
 }

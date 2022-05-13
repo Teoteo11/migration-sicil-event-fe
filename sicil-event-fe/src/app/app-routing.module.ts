@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ChooseRoleComponent } from './components/choose-role/choose-role.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { LoginComponent } from './components/login/login.component';
+import { EditTicketComponent } from './components/tickets/edit-ticket/edit-ticket.component';
 import { SellTicketComponent } from './components/tickets/sell-ticket/sell-ticket.component';
 import { CommonGuard } from './guards/common.guard';
 import { LoginGuard } from './guards/login.guard';
@@ -26,6 +27,16 @@ const routes: Routes = [
   {
     path: 'homepage',
     component: HomepageComponent,
+    canActivate: [CommonGuard],
+  },
+  // {
+  //   path: 'edit-ticket',
+  //   component: EditTicketComponent,
+  //   canActivate: [CommonGuard]
+  // },
+  { 
+    path: 'homepage/:id', 
+    component: EditTicketComponent, 
     canActivate: [CommonGuard]
   },
   {

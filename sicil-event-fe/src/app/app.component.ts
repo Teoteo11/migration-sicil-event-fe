@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   routeSub: Subscription;
 
   ngOnInit(): void {
-    console.log('BENVENUTO SU HEROKU')
+    console.log('BENVENUTO SU HEROKU!')
   }
 
 

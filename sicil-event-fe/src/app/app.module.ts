@@ -28,6 +28,7 @@ import { ListTicketsComponent } from './components/tickets/list-tickets/list-tic
 import { TicketComponent } from './components/tickets/ticket/ticket.component';
 import { EditTicketComponent } from './components/tickets/edit-ticket/edit-ticket.component';
 import { ListPRComponent } from './components/list-pr/list-pr.component';
+import { DialogComponent } from './shared/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ListPRComponent } from './components/list-pr/list-pr.component';
     TicketComponent,
     EditTicketComponent,
     ListPRComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,

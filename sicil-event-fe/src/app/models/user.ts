@@ -3,6 +3,7 @@ import { Ticket } from "./ticket";
 
 export interface User {
     _id: string;
+    id: string;
     accessToken: string;
     refreshToken: string;
     name: string;

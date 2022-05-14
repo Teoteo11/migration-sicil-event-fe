@@ -37,8 +37,8 @@ export class TicketsService {
     getTicketsForReceptionists = async () =>
         await this.http.get<ReceptionistData>(`${environment.url}/receptionist/${this.cookieService.get('id')}/incoming`).toPromise();
 
-    deleteTicket = async (idTicket: string) =>  
-        await this.http.post<any>(`${environment.url}/ticket/${this.cookieService.get('id')}/update`, { idTicket: idTicket }).toPromise();
+    deleteTicket = async (idSale: string) =>  
+        await this.http.post<any>(`${environment.url}/receptionist/${this.cookieService.get('id')}/incominglist`, { idSale: idSale }).toPromise();
 
 
 }

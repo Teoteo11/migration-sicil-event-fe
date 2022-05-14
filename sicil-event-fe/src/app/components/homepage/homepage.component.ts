@@ -15,13 +15,15 @@ import { TicketsService } from 'src/app/services/tickets.service';
 export class HomepageComponent implements OnInit {
 
   role: Role;
-  totalTickets = 10;
+  totalTickets;
   sendFieldToFilter: string = '';
   tickets: Ticket[] = [];
   listPR: Pr[] = [];
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event) {
+    setTimeout(() => window.history.forward(), 0);
+    window.onunload = () => null;
     return;
   }
 
@@ -35,20 +37,27 @@ export class HomepageComponent implements OnInit {
     this.role = this.cookieService.get('role') as Role;
     try { 
       if (this.role) {
+        // PR
         if (this.role === Role.PR) {
-          // PR
           this.tickets = await this.ticketService.getTickets();
           this.totalTickets = this.tickets.length;
-        } else if (this.role === Role.ADMIN) {
           // ADMIN
+        } else if (this.role === Role.ADMIN) {
           this.listPR = await this.prService.getPrOfAdmin();
+          console.log('LIST PR: ', this.listPR);
+          let results: Ticket[] = [];
+          this.listPR.forEach( async item => {
+            const data = await this.ticketService.getTicketsOfSpecificPR(item.id);
+            data.length > 0 && (this.totalTickets = data.length);
+          });
+        }
         } else {
           // RECEPTIONIST
           const data = await this.ticketService.getTicketsForReceptionists();
           data && (this.tickets = data.tickets, this.totalTickets = data.incomingNumber);
         }
       }
-    } catch (error) {
+     catch (error) {
       this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] });
     }
   }

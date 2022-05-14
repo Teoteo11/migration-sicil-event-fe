@@ -69,6 +69,10 @@ export class ListTicketsComponent implements OnInit {
         if (this.findSomeNameOrSurname(this.textValue)) {
             this.tickets = filteredTicketsTab.filter( ({name, surname}) => ( name === this.textValue || surname === this.textValue));
         }
+        //? EMAIL
+        if (this.textValue.includes('@')) {
+            this.tickets = filteredTicketsTab.filter( ({email}) => email === this.textValue );
+        }
         //? TIPOLOGIA
         if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
             this.tickets = filteredTicketsTab.filter( ({type}) => type === this.textValue );

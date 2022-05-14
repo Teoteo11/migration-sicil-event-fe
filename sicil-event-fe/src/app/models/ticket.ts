@@ -3,6 +3,7 @@ export interface Ticket {
     _id: string;
     name: string;
     surname: string;
+    email: string;
     pr?: any[];
     type: Type,
     status: Status

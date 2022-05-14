@@ -3,13 +3,14 @@
         <div *ngIf="ticket.status === 'NOTPAID' && role === 'PR'" (click)="edit()" class="col-sm-12 container-icon">
             <img src="../../../assets/icons/edit.svg" alt="edit">
         </div>
-        <div *ngIf="role === 'RECEPTIONIST'" (click)="delete()" class="col-sm-12 container-icon">
+        <div *ngIf="role === 'RECEPTIONIST'" (click)="openDialog()" class="col-sm-12 container-icon">
             <img height="32" width="32" src="../../../assets/icons/trash.png" alt="trash">
         </div>
         <div class="col-6">
             <p class="label-head">ID Sale</p>
             <p class="label-head">Nome</p>
             <p class="label-head">Cognome</p>
+            <p class="label-head">Email</p>
             <p class="label-head">Tipologia</p>
             <p class="label-head" *ngIf="ticket.status === 'PAID'">Pagato</p>
         </div>
@@ -17,6 +18,7 @@
             <p class="label-value">{{ ticket?.idSale  | uppercase}}</p>
             <p class="label-value">{{ticket.name ? ticket.name : '-'}}</p>
             <p class="label-value">{{ticket.surname ? ticket.surname : '-'}}</p>
+            <p class="label-value">{{ticket.email ? ticket.email : '-'}}</p>
             <p class="label-value">{{ticket.type ? ticket.type : '-'}}</p>
             <p class="label-value" *ngIf="ticket.status && ticket.status === 'PAID'">{{ ticket.status ? ticket.status : '-'}}</p>
         </div>

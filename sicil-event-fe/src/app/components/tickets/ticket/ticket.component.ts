@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { Ticket } from 'src/app/models/ticket';
 import { AuthService } from 'src/app/services/auth.service';
 import { TicketsService } from 'src/app/services/tickets.service';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-ticket',
@@ -19,6 +21,7 @@ export class TicketComponent implements OnInit {
   constructor(private router: Router,
               private authService: AuthService,
               private snackBar: MatSnackBar,
+              private dialog: MatDialog,
               private ticketService: TicketsService,
               private cookieService: CookieService) {}
 
@@ -30,13 +33,30 @@ export class TicketComponent implements OnInit {
 
   delete = async () => {
     try {
-      await this.ticketService.deleteTicket(this.ticket._id) && (
+      await this.ticketService.deleteTicket(this.ticket.idSale) && (
         this.router.navigate(['homepage']),
         this.snackBar.open('BIGLIETTO RIMOSSO', 'X', { duration: 1500, panelClass: ['custom-snackbar-complete'] })
       )
     } catch (error) {
-      this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar-complete'] })
+      this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] })
     }
+  }
+
+  openDialog(): void {
+    const dialogData = {
+      width: '360px',
+      height: '500px',
+      data: {
+        title: 'Sei sicuro di voler eliminare il biglietto?',
+        message: 'Azione non reversibile',
+        actionClick: () => this.delete()
+      }
+    }
+    const dialogRef = this.dialog.open(DialogComponent, dialogData);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ',result);
+    });
   }
   
 

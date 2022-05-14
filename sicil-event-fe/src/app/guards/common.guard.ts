@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { Observable } from 'rxjs';
@@ -11,6 +12,7 @@ import { AuthService } from '../services/auth.service';
 export class CommonGuard implements CanActivate {
 
   constructor(private router: Router,
+              private snackBar: MatSnackBar,
               private authService: AuthService,
               private cookieService: CookieService) {}
 
@@ -18,6 +20,10 @@ export class CommonGuard implements CanActivate {
 
   checkLogin = (url: string): boolean => {
     //TODO if 401 || scadenza token -> redirect choose-role + snackbar sessione scaduta
+    if (this.authService.isLoggedIn() &&  (url === '/login' || url === '/choose-role')) {
+      this.router.navigate(['homepage']);
+      return true;
+    }
     //ONLY FOR ADMIN
     if (this.cookieService.get('role') === Role.ADMIN && url === '/sell-ticket') {
       this.router.navigate(['homepage']);

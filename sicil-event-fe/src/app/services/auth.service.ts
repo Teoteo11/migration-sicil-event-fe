@@ -57,7 +57,7 @@ export class AuthService {
       case 500:
         return 'Errore server';
       default:
-        return '';
+        return 'Si è verificato un problema';
     }
   }
 

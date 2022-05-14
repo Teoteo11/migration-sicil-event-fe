@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -17,7 +17,10 @@ export class AppComponent {
   constructor(private router: Router) {
     this.routeSub = router.events.pipe(
       filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => this.url = event.url);
+      .subscribe((event: NavigationEnd) => {
+        this.url = event.url
+        console.log("🚀 ~ file: app.component.ts ~ line 22 ~ AppComponent ~ .subscribe ~ this.url", this.url)
+      });
   }
 
 

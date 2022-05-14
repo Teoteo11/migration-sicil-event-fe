@@ -64,6 +64,11 @@ body {
     background: $color-complete;
 }
 
+.custom-snackbar-warning {
+    @extend .custom-snackbar;
+    background: $color-warning;
+}
+
 .mat-simple-snackbar-action {
     color: $color-accent;
 }

@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.commonService.events$.forEach(event => this.name = event);
-    this.name = this.cookieService.get('name') ? this.cookieService.get('name') : 'SicilEvents' ;
+    this.name = this.cookieService.get('name') ? this.cookieService.get('name') : 'SicilEvent' ;
   }
 
   logout = () => this.authService.logout();

@@ -1,4 +1,4 @@
-<div class="container-admin">
+<div class="container-admin" [ngClass]="{'set-bg':url === '/choose-role'}">
   <!-- TODO: funzione () => boolean -->
   <div *ngIf="url !== '/choose-role' && url !== '/login' && url !== '/sell-ticket' && url !== '/' ">
     <app-navbar></app-navbar>

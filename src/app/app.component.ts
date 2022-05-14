@@ -19,6 +19,7 @@ export class AppComponent {
       filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.url = event.url
+        console.log("🚀 ~ file: app.component.ts ~ line 22 ~ AppComponent ~ .subscribe ~ this.url", this.url)
       });
   }
 

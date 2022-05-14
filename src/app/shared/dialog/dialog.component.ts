@@ -21,4 +21,9 @@ export class DialogComponent  {
 
   closeDialog = (): void => this.dialogRef.close();
 
+  continue = () => {
+    this.data.actionClick();
+    this.closeDialog();
+  }
+
 }

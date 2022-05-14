@@ -39,7 +39,7 @@ export class EditTicketComponent implements OnInit {
       this.isClicked = true;
       const res = await this.ticketService.updateTicket(this.ticket._id);
       if (res) {
-        this.snackBar.open('BIGLIETTO VENDUTO', 'X', { duration: 1500, panelClass: ['custom-snackbar-complete'] });
+        this.snackBar.open('PAGAMENTO AVVENUTO', 'X', { duration: 1500, panelClass: ['custom-snackbar-complete'] });
         this.router.navigate(['homepage']);
       }
       setTimeout(() => {

@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
@@ -19,6 +19,7 @@ export class ListTicketsComponent implements OnInit {
     @Input() tickets: Ticket[];
 
     originalTickets: Ticket[] = [];
+    totalTicketsNumber: number;
     sendFieldToFilter: string = 'NOTPAID';
     textValue: string;
     role: string;
@@ -49,7 +50,10 @@ export class ListTicketsComponent implements OnInit {
 
     findSomeNameOrSurname = (nameOrSurname: string) => this.originalTickets.some( ({name, surname}) => (name === nameOrSurname || surname === nameOrSurname));
 
-    findSomeIdSale = (idSaleParam: string) => this.originalTickets.some( ({idSale}) => idSale === idSaleParam.toLowerCase());
+    findSomeIdSale = (idSaleParam: string) => {
+        console.log("🚀 idSaleParam", idSaleParam)
+        return this.originalTickets.some( ({idSale}) => idSale === idSaleParam);
+    }
     
     filterArray = () => {
         const filteredTicketsTab = this.role !== Role.RECEPTIONIST ? this.originalTickets.filter( ({status, type}) => (status === this.sendFieldToFilter || type === this.sendFieldToFilter)) : this.originalTickets;
@@ -59,10 +63,10 @@ export class ListTicketsComponent implements OnInit {
             return;
         }
         //? IDSALE
-        if (this.sendFieldToFilter === Status.PAID) {
+        if (this.sendFieldToFilter === Status.PAID || this.role === Role.RECEPTIONIST) {
             // TODO serve la modifica al BE che mette gli idSale o tutto UPPERCASE o tutto LOWERCASE
             if (this.findSomeIdSale(this.textValue)) {
-                this.tickets = filteredTicketsTab.filter(({idSale}) => idSale === this.textValue.toLowerCase());
+                this.tickets = filteredTicketsTab.filter(({idSale}) => idSale === this.textValue);
             }
         }
         //? NAME -SURNAME
@@ -81,6 +85,7 @@ export class ListTicketsComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes) {
+            console.log("🚀 ~ file: list-tickets.component.ts ~ line 88 ~ ListTicketsComponent ~ ngOnChanges ~ changes", changes)
             if (changes.tickets && changes.tickets.currentValue) {
                 this.tickets = changes.tickets.currentValue;
                 this.originalTickets = [...this.tickets];
@@ -103,6 +108,13 @@ export class ListTicketsComponent implements OnInit {
         } else {
             this.tickets = this.originalTickets.filter(item => item.status === Status.PAID && item.type === Type.GIFT);
         }
+    }
+
+    takeEvent = async (event: boolean) => {
+        event && event === true && ( 
+            this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets,
+            this.tickets && this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.length)
+        )
     }
 
 }

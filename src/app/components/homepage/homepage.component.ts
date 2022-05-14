@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { Ticket } from 'src/app/models/ticket';
 import { Pr, Role } from 'src/app/models/user';
@@ -29,9 +30,11 @@ export class HomepageComponent implements OnInit {
 
   constructor(private cookieService: CookieService,
               private snackBar: MatSnackBar,
+              private router: Router,
               private authService: AuthService,
               private prService: PrService,
-              private ticketService: TicketsService) {}
+              private ticketService: TicketsService) {
+              }
 
   async ngOnInit() {
     this.role = this.cookieService.get('role') as Role;
@@ -40,21 +43,20 @@ export class HomepageComponent implements OnInit {
         // PR
         if (this.role === Role.PR) {
           this.tickets = await this.ticketService.getTickets();
-          this.totalTickets = this.tickets.length;
+          this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.length);
           // ADMIN
         } else if (this.role === Role.ADMIN) {
           this.listPR = await this.prService.getPrOfAdmin();
           console.log('LIST PR: ', this.listPR);
-          let results: Ticket[] = [];
           this.listPR.forEach( async item => {
             const data = await this.ticketService.getTicketsOfSpecificPR(item.id);
             data.length > 0 && (this.totalTickets = data.length);
           });
-        }
         } else {
           // RECEPTIONIST
-          const data = await this.ticketService.getTicketsForReceptionists();
-          data && (this.tickets = data.tickets, this.totalTickets = data.incomingNumber);
+          this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets;
+          this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.length);
+        }
         }
       }
      catch (error) {

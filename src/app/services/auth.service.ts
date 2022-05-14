@@ -63,14 +63,13 @@ export class AuthService {
 
   storeAuthData = (authenticationData: Partial<User>): Promise<void> => {
     try {
-      // const accessTokenExpire = (Math.trunc(Date.now() / 1000)) + authenticationData.expiresIn;
-      this.cookieService.put('accessToken', authenticationData.accessToken);
       this.cookieService.put('id', authenticationData._id);
       this.cookieService.put('name', authenticationData.name);
-      // this.cookieService.put('accessTokenExpiry', String(authenticationData.expiresIn));
-      // this.cookieService.put('accessTokenExpireAt', String(accessTokenExpire));
-      this.cookieService.put('refreshToken', authenticationData.refreshToken);
+      this.cookieService.put('surname', authenticationData.name);
+      this.cookieService.put('email', authenticationData.name);
       this.cookieService.put('role', authenticationData.role);
+      this.cookieService.put('accessToken', authenticationData.accessToken);
+      this.cookieService.put('refreshToken', authenticationData.refreshToken);
     } catch (err) {
       return Promise.reject();
     }

@@ -4,9 +4,11 @@
 .custom-dialog {
     font-family: "Social Gothic", Arial, Helvetica, sans-serif;
     .title {
-        margin-top: toRem(32);
+        margin-top: toRem(16);
         margin-bottom: toRem(32);
         font-family: "Social Gothic", Arial, Helvetica, sans-serif !important;
+        font-size: toRem(24);
+        line-height: toRem(40);
     }
 
     .wrapper-btn {

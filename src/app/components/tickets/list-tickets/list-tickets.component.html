@@ -1,6 +1,6 @@
-<div class="row m-0 container-tickets">
+<div class="row container-tickets">
     <ng-container *ngIf="role === 'ADMIN'">
-        <app-counter-total [totalTickets]="originalTickets.length"></app-counter-total>
+        <app-counter-total [totalTickets]="totalTicketsNumber"></app-counter-total>
     </ng-container>
     <ng-container *ngIf="role !== 'RECEPTIONIST'">
         <app-filter-bar (triggerTab)="receiveTabChoosed($event)"></app-filter-bar>
@@ -22,7 +22,7 @@
     <ng-container *ngIf="tickets && tickets.length > 0; else noTickets">
         <div class="wrapper-tickets">
             <div *ngFor="let ticket of tickets" class="col-sm-12">
-                <app-ticket [ticket]="ticket"></app-ticket>
+                <app-ticket [ticket]="ticket" (isReceptionist)="takeEvent($event)"></app-ticket>
             </div>
         </div>
     </ng-container>

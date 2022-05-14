@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -16,6 +16,8 @@ import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 export class TicketComponent implements OnInit {
 
   @Input() ticket: Ticket;
+  @Output() isReceptionist = new EventEmitter<boolean>(false);
+
   role = '';
 
   constructor(private router: Router,
@@ -34,7 +36,7 @@ export class TicketComponent implements OnInit {
   delete = async () => {
     try {
       await this.ticketService.deleteTicket(this.ticket.idSale) && (
-        this.router.navigate(['homepage']),
+        this.isReceptionist.emit(true),
         this.snackBar.open('BIGLIETTO RIMOSSO', 'X', { duration: 1500, panelClass: ['custom-snackbar-complete'] })
       )
     } catch (error) {
@@ -53,7 +55,6 @@ export class TicketComponent implements OnInit {
       }
     }
     const dialogRef = this.dialog.open(DialogComponent, dialogData);
-
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed: ',result);
     });

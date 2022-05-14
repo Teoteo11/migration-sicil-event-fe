@@ -1,0 +1,37 @@
+@import '../../../assets/styles/variables.scss';
+@import '../../../assets/styles/mixins.scss';
+
+.custom-nav {
+    background-color: $color-primary;
+    padding: toRem(16) 1.5rem;
+    font-family: "Social Gothic", Arial, Helvetica, sans-serif;
+
+    .title {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .menu {
+        margin-top: toRem(16);
+
+        li {
+            font-size: toRem(20);
+            padding: toRem(8);
+            display: flex;
+            justify-content: center;
+
+            &:nth-child(1) {
+                margin-top: toRem(16);
+                margin-bottom: toRem(16);
+            }
+
+            &:nth-child(2) {
+                margin-bottom: toRem(24);
+            }
+        }
+    }
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: $color-accent;
+}

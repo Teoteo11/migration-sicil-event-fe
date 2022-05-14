@@ -1,0 +1,18 @@
+<nav class="navbar navbar-dark custom-nav">
+    <img *ngIf="showArrowBack()" (click)="back()" height="24" width="24" src="../../../../assets/icons/arrow-white.png" />
+    <a class="title navbar-brand">{{ name !== 'SicilEvent' ? 'Ciao' + ' ' + name : 'SicilEvent' }}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse menu" id="navbarNav">
+        <ul class="navbar-nav">
+            <li *ngIf="showTabSell()" class="nav-item">
+                <a (click)="goToSellTickets()" class="nav-link">Vendi biglietto</a>
+            </li>
+            <li class="nav-item">
+                <app-button color="secondary" (click)="logout()">Logout</app-button>
+            </li>
+        </ul>
+    </div>
+</nav>

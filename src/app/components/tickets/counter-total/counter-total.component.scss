@@ -1,0 +1,20 @@
+@import "../../../../assets/styles/variables.scss";
+@import "../../../../assets/styles/mixins.scss";
+
+.counter-sticky {
+    width: 100%;
+    background-color: $color-secondary;
+    display: inline-flex;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+
+    .counter {
+        font-family: "Social Gothic", Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        margin-top: toRem(16);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: toRem(20);
+    }
+}

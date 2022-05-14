@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="row w-100">
+        <div class="back-bar">
+            <img (click)="back()" height="40" width="40" src="../../../../assets/icons/arrow.svg"/>
+        </div>
+    </div>
+    <div class="container-edit row">
+        <p class="title">Modifica lo stato di pagamento del biglietto</p>
+        <div *ngIf="ticket; else noTicket" class="box-data col-sm-12">
+            <div class="row">
+                <div class="col-6 label-data">Nome</div>
+                <div class="col-6 label-data">{{ ticket.name }}</div>
+            </div>
+            <div class="row spacing">
+                <div class="col-6 label-data">Cognome</div>
+                <div class="col-6 label-data">{{ ticket.surname }}</div>
+            </div>
+            <div class="row">
+                <div class="col-6 label-data">Tipologia</div>
+                <div class="col-6 label-data">{{ ticket.type }}</div>
+            </div>
+        </div>
+        <div class="btn-pay">
+            <app-button (click)="changeStatus()" color="secondary">Paga</app-button>
+        </div>
+        <ng-template #noTicket>
+            <p class="noTicket">Biglietto non disponibile, ritorna alla lista per modificarlo</p>
+        </ng-template>
+    </div>
+</div>

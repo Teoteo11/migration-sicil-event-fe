@@ -1,0 +1,72 @@
+@import '../../../assets/styles/variables.scss';
+@import '../../../assets/styles/mixins.scss';
+
+.custom-bg {
+    background-size: cover;
+    background-attachment: scroll;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    background: $color-accent;
+    justify-content: center;
+    font-family: "Social Gothic", Arial, Helvetica, sans-serif;
+
+    .section {
+        padding: toRem(16);
+        color: $color-primary;
+
+        .form-control:focus {
+            font-size: toRem(14);
+        }
+
+        .title {
+            text-align: center;
+        }
+
+        .container-logo {
+            margin-top: toRem(32);
+            margin-bottom: toRem(56);
+            display: flex;
+            justify-content: center;
+
+            .logo {
+                height: 172px;
+            }
+        }
+
+        .distance-field {
+            margin-top: toRem(40);
+        }
+
+        .wrap-icon {
+            position: relative;
+        }
+
+        .input-field {
+            border-radius: 16px;
+            padding: toRem(16);
+            font-size: toRem(14);
+            font-family: Roboto, "Helvetica Neue", sans-serif;
+        }
+
+        .eye {
+            height: 20px;
+            position: absolute;
+            right: 0;
+            top: 20px;
+            margin-right: toRem(8);
+        }
+
+
+        .label {
+            font-size: toRem(16);
+        }
+
+        .container-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: toRem(48);
+        }
+    }
+
+}

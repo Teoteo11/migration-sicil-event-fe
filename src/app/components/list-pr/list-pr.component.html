@@ -1,0 +1,17 @@
+<div class="container-fluid wrapper-list">
+    <div class="row">
+        <p class="title">I TUOI PR</p>
+        <div *ngFor="let pr of listPR" class="col-sm-12 d-inline-flex justify-content-center mb-4">
+            <div (click)="goToPR(pr.id)" class="row w-100 box">
+                <div class="col-6">
+                    <p class="label set-color-secondary">Nome:</p>
+                    <p class="label mt-3 set-color-secondary">Cognome:</p>
+                </div>
+                <div class="col-6">
+                    <p class="label">{{ pr.name }}</p>
+                    <p class="label mt-3">{{ pr.surname }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

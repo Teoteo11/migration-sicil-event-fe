@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
-import { Ticket } from 'src/app/models/ticket';
+import { Status, Ticket } from 'src/app/models/ticket';
 import { Pr, Role } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { PrService } from 'src/app/services/pr.service';
@@ -44,10 +44,11 @@ export class HomepageComponent implements OnInit {
         if (this.role === Role.PR) {
           this.tickets = await this.ticketService.getTickets();
           this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.length);
+          const ticketsPaid = this.tickets.filter( item => item.status === Status.PAID).length;
+          this.cookieService.put('totalTicketsPaid', String(ticketsPaid));
           // ADMIN
         } else if (this.role === Role.ADMIN) {
           this.listPR = await this.prService.getPrOfAdmin();
-          console.log('LIST PR: ', this.listPR);
           this.listPR.forEach( async item => {
             const data = await this.ticketService.getTicketsOfSpecificPR(item.id);
             data.length > 0 && (this.totalTickets = data.length);

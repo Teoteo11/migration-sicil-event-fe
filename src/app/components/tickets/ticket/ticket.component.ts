@@ -54,10 +54,7 @@ export class TicketComponent implements OnInit {
         actionClick: () => this.delete()
       }
     }
-    const dialogRef = this.dialog.open(DialogComponent, dialogData);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed: ',result);
-    });
+    this.dialog.open(DialogComponent, dialogData);
   }
   
 

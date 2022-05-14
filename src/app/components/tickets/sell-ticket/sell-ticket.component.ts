@@ -58,19 +58,18 @@ export class SellTicketComponent implements OnInit {
         status: this.ticketForm.get('pay').value === true ? Status.PAID : Status.NOTPAID,
       }
       if (ticket) {
-        // if ((Number(this.cookieService.get('totalTickets')) + 1) % 21 === 0) {
-        //   const ticketFree = { 
-        //     name: this.cookieService.get('name'),
-        //     surname: this.cookieService.get('surname'),
-        //     email: this.cookieService.get('email'), 
-        //     typeTicket: Type.GIFT, 
-        //     status: Status.PAID 
-        //   };
-        //   console.log('ECCO IL TUO OMAGGIO: ',ticket);
-        //   this.snackBar.open('HAI VINTO UN OMAGGIO, CONTROLLA LA TUA POSTA ELETTRONICA','X', {duration: 4500, panelClass: ['custom-snackbar-complete']});
-        //   // await this.ticketService.sellTicket(ticketFree) && this.router.navigate(['homepage']);
-        //   return;
-        // } 
+        if (((Number(this.cookieService.get('totalTicketsPaid')) + 1) % 26 === 0) && ticket.status === Status.PAID) {
+          const ticketFree = { 
+            name: this.cookieService.get('name'),
+            surname: this.cookieService.get('surname'),
+            email: this.cookieService.get('email'), 
+            typeTicket: Type.GIFT, 
+            status: Status.PAID 
+          };
+          this.snackBar.open('HAI VINTO UN OMAGGIO, CONTROLLA LA TUA POSTA ELETTRONICA','X', {duration: 1500, panelClass: ['custom-snackbar-complete']});
+          await this.ticketService.sellTicket(ticketFree) && this.router.navigate(['homepage']);
+          return;
+        } 
         this.submitted = false;
         await this.ticketService.sellTicket(ticket) && this.router.navigate(['homepage']);
         this.snackBar.open('BIGLIETTO VENDUTO','X', {duration: 1500, panelClass: ['custom-snackbar-complete']});

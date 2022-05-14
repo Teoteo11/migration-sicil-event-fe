@@ -50,10 +50,7 @@ export class ListTicketsComponent implements OnInit {
 
     findSomeNameOrSurname = (nameOrSurname: string) => this.originalTickets.some( ({name, surname}) => (name === nameOrSurname || surname === nameOrSurname));
 
-    findSomeIdSale = (idSaleParam: string) => {
-        console.log("🚀 idSaleParam", idSaleParam)
-        return this.originalTickets.some( ({idSale}) => idSale === idSaleParam);
-    }
+    findSomeIdSale = (idSaleParam: string) => this.originalTickets.some( ({idSale}) => idSale === idSaleParam);
     
     filterArray = () => {
         const filteredTicketsTab = this.role !== Role.RECEPTIONIST ? this.originalTickets.filter( ({status, type}) => (status === this.sendFieldToFilter || type === this.sendFieldToFilter)) : this.originalTickets;
@@ -85,7 +82,6 @@ export class ListTicketsComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes) {
-            console.log("🚀 ~ file: list-tickets.component.ts ~ line 88 ~ ListTicketsComponent ~ ngOnChanges ~ changes", changes)
             if (changes.tickets && changes.tickets.currentValue) {
                 this.tickets = changes.tickets.currentValue;
                 this.originalTickets = [...this.tickets];

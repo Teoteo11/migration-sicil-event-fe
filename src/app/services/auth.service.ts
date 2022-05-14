@@ -65,8 +65,8 @@ export class AuthService {
     try {
       this.cookieService.put('id', authenticationData._id);
       this.cookieService.put('name', authenticationData.name);
-      this.cookieService.put('surname', authenticationData.name);
-      this.cookieService.put('email', authenticationData.name);
+      this.cookieService.put('surname', authenticationData.surname);
+      this.cookieService.put('email', authenticationData.email);
       this.cookieService.put('role', authenticationData.role);
       this.cookieService.put('accessToken', authenticationData.accessToken);
       this.cookieService.put('refreshToken', authenticationData.refreshToken);

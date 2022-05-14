@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  url: 'https://sicil-events.herokuapp.com',
+  // url: 'http://localhost:3008',
+  production: true,
 };

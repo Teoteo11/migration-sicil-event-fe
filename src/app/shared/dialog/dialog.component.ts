@@ -5,6 +5,7 @@ export interface DialogData {
   title: string | any;
   message: string;
   actionClick: () => void;
+  showInputField: boolean;
 }
 
 @Component({
@@ -13,6 +14,7 @@ export interface DialogData {
   styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent  {
+
 
   
   constructor(

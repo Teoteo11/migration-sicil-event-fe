@@ -15,4 +15,17 @@
         margin-top: toRem(16);
         margin-bottom: toRem(32);
     }
+
+    .input-field {
+        border-radius: 16px;
+        padding: toRem(14);
+        font-size: toRem(14);
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    .position-field {
+        margin-top: toRem(32);
+        margin-bottom: toRem(48);
+    }
+
 }

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
-import { Status, Ticket, Type } from 'src/app/models/ticket';
+import { Status, THESHOLD_GIFT, Ticket, Type } from 'src/app/models/ticket';
 import { AuthService } from 'src/app/services/auth.service';
 import { TicketsService } from 'src/app/services/tickets.service';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-edit-ticket',
@@ -20,6 +22,7 @@ export class EditTicketComponent implements OnInit {
   constructor(private router: Router,
     private snackBar: MatSnackBar,
     private authService: AuthService,
+    private dialog: MatDialog,
     private cookieService: CookieService,
     private ticketService: TicketsService,
     private route: ActivatedRoute) { }
@@ -42,20 +45,7 @@ export class EditTicketComponent implements OnInit {
       const res = await this.ticketService.updateTicket(this.ticket._id);
       if (res) {
         this.snackBar.open('PAGAMENTO AVVENUTO', 'X', { duration: 1100, panelClass: ['custom-snackbar-complete'] });
-        if ((Number(this.cookieService.get('totalTicketsPaid')) + 1) % 26 === 0) {
-          const ticketFree = { 
-            name: this.cookieService.get('name'),
-            surname: this.cookieService.get('surname'),
-            email: this.cookieService.get('email'), 
-            typeTicket: Type.GIFT, 
-            status: Status.PAID 
-          };
-          this.snackBar.open('HAI VINTO UN OMAGGIO, CONTROLLA LA TUA POSTA ELETTRONICA','X', {duration: 1500, panelClass: ['custom-snackbar-complete']});
-          await this.ticketService.sellTicket(ticketFree) && this.router.navigate(['homepage']);
-          return;
-        } else {
-          this.router.navigate(['homepage']);
-        }
+        this.checkGift() ? this.openDialog() : this.router.navigateByUrl('homepage');     
       }
       setTimeout(() => {
         this.isClicked = false;
@@ -63,6 +53,49 @@ export class EditTicketComponent implements OnInit {
     } catch (error) {
       error && this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] })
     }
+  }
+
+  checkGift = () => {
+    if (this.checkValue() % THESHOLD_GIFT === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkValue = () => {
+    let test = Number(this.cookieService.get('totalTicketsPaid'));
+    return test += 1;
+  }
+
+
+  redeemGift = async () => {
+    try {
+      const res = await this.ticketService.sendGift(); 
+      if (res) {
+        this.snackBar.open('CONTROLLA LA POSTA ELETTRONICA PER IL TUO OMAGGIO','X', {duration: 1500, panelClass: ['custom-snackbar-complete']});
+        this.router.navigateByUrl('homepage');
+      }
+    } catch (error) {
+      this.snackBar.open(this.authService.handleErrorStatus(error),'X', {duration: 1500, panelClass: ['custom-snackbar']});
+    }
+  }
+  
+  openDialog(): void {
+    const dialogData = {
+      width: '360px',
+      height: '500px',
+      data: {
+        title: 'Hai vinto un biglietto omaggio',
+        message: 'Controlla la tua posta elettronica. Azione non reversibile',
+        actionClick: () => {},
+        showInputField: true
+      }
+    }
+    const dialog = this.dialog.open(DialogComponent, dialogData);
+    dialog.afterClosed().subscribe(result => {
+      this.redeemGift();
+    });
   }
 
 

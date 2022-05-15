@@ -40,7 +40,7 @@ export class ListTicketsComponent implements OnInit {
                         this.tickets = await this.ticketService.getTicketsOfSpecificPR(this.route.snapshot.queryParams.id);
                         this.originalTickets = [...this.tickets];
                         this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID); 
-                        this.totalTicketsNumber = this.originalTickets.length;     
+                        this.totalTicketsNumber = this.originalTickets.filter(({status, type}) => status === Status.PAID && type !== Type.GIFT).length;     
                     }
                 } catch (error) {
                     this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] });
@@ -54,15 +54,19 @@ export class ListTicketsComponent implements OnInit {
     findSomeIdSale = (idSaleParam: string) => this.originalTickets.some( ({idSale}) => idSale === idSaleParam);
     
     filterArray = () => {
-        const filteredTicketsTab = this.role !== Role.RECEPTIONIST ? this.originalTickets.filter( ({status, type}) => (status === this.sendFieldToFilter || type === this.sendFieldToFilter)) : this.originalTickets;
+        let filteredTicketsTab = this.role !== Role.RECEPTIONIST 
+        ? this.originalTickets.filter( ({status, type}) => (status === this.sendFieldToFilter || type === this.sendFieldToFilter)) 
+        : this.originalTickets;
+        if (this.sendFieldToFilter === Status.PAID) {
+            filteredTicketsTab = filteredTicketsTab.filter(({type}) => type !== Type.GIFT);
+        }
         //? NO FILTER
         if (this.textValue === '') {
             this.tickets = [...filteredTicketsTab];
             return;
         }
         //? IDSALE
-        if (this.sendFieldToFilter === Status.PAID || this.role === Role.RECEPTIONIST) {
-            // TODO serve la modifica al BE che mette gli idSale o tutto UPPERCASE o tutto LOWERCASE
+        if (this.sendFieldToFilter === Type.GIFT || this.sendFieldToFilter === Status.PAID || this.role === Role.RECEPTIONIST) {
             if (this.findSomeIdSale(this.textValue)) {
                 this.tickets = filteredTicketsTab.filter(({idSale}) => idSale === this.textValue);
             }
@@ -78,7 +82,7 @@ export class ListTicketsComponent implements OnInit {
         //? TIPOLOGIA
         if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
             this.tickets = filteredTicketsTab.filter( ({type}) => type === this.textValue );
-        } 
+        }
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -86,7 +90,7 @@ export class ListTicketsComponent implements OnInit {
             if (changes.tickets && changes.tickets.currentValue) {
                 this.tickets = changes.tickets.currentValue;
                 this.originalTickets = [...this.tickets];
-                this.totalTicketsNumber = this.originalTickets.length;
+                this.totalTicketsNumber = this.originalTickets.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length;
                 if (this.role !== Role.RECEPTIONIST) {
                     this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID);
                 }
@@ -111,7 +115,7 @@ export class ListTicketsComponent implements OnInit {
     takeEvent = async (event: boolean) => {
         event && event === true && ( 
             this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets,
-            this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.length)
+            this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length)
         )
     }
 

@@ -27,3 +27,5 @@ export interface PayloadTicket {
     status: Status;
     typeTicket: Type;
 }
+
+export const THESHOLD_GIFT = 31;

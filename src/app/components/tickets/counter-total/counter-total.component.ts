@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 
 @Component({
@@ -6,10 +6,17 @@ import { CookieService } from 'ngx-cookie';
   templateUrl: './counter-total.component.html',
   styleUrls: ['./counter-total.component.scss']
 })
-export class CounterTotalComponent {
+export class CounterTotalComponent implements OnInit {
 
+  role = '';
   @Input() totalTickets: number;
   
-  constructor() { }
+  constructor(private cookieService: CookieService) {}
+
+  ngOnInit(): void {
+    this.role = this.cookieService.get('role');
+  }
+
+
 
 }

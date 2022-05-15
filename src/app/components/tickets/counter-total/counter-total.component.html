@@ -1,5 +1,8 @@
 <div class="row w-100 remove-ml">
     <div class="col-sm-12 counter-sticky">
-        <h2 class="counter">Totale biglietti: {{totalTickets}}</h2>
+        <h2 *ngIf="role === 'RECEPTIONIST'; else other" class="counter">Totale biglietti: {{totalTickets}}</h2>
+        <ng-template #other>
+            <h2 class="counter">Totale biglietti venduti: {{totalTickets}}</h2>
+        </ng-template>
     </div>
 </div>

@@ -1,6 +1,8 @@
 <!-- <app-navbar></app-navbar> -->
 <router-outlet></router-outlet>
-<app-counter-total [totalTickets]="totalTickets"></app-counter-total>
+<ng-container *ngIf="role !== 'RECEPTIONIST'">
+    <app-counter-total [totalTickets]="totalTickets"></app-counter-total>
+</ng-container>
 <app-btn-ticket></app-btn-ticket>
 <ng-container [ngSwitch]="role">
     <ng-container *ngSwitchCase="'ADMIN'">

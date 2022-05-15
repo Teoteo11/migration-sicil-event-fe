@@ -1,5 +1,5 @@
 <div class="row container-tickets">
-    <ng-container *ngIf="role === 'ADMIN'">
+    <ng-container *ngIf="role === 'ADMIN' || role === 'RECEPTIONIST'">
         <app-counter-total [totalTickets]="totalTicketsNumber"></app-counter-total>
     </ng-container>
     <ng-container *ngIf="role !== 'RECEPTIONIST'">

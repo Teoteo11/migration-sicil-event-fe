@@ -10,6 +10,6 @@ export class CounterTotalComponent {
 
   @Input() totalTickets: number;
   
-  constructor(private cookieService: CookieService) { }
+  constructor() { }
 
 }

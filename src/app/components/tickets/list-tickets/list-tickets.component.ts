@@ -39,7 +39,8 @@ export class ListTicketsComponent implements OnInit {
                     if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.id) {
                         this.tickets = await this.ticketService.getTicketsOfSpecificPR(this.route.snapshot.queryParams.id);
                         this.originalTickets = [...this.tickets];
-                        this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID);      
+                        this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID); 
+                        this.totalTicketsNumber = this.originalTickets.length;     
                     }
                 } catch (error) {
                     this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] });
@@ -85,6 +86,7 @@ export class ListTicketsComponent implements OnInit {
             if (changes.tickets && changes.tickets.currentValue) {
                 this.tickets = changes.tickets.currentValue;
                 this.originalTickets = [...this.tickets];
+                this.totalTicketsNumber = this.originalTickets.length;
                 if (this.role !== Role.RECEPTIONIST) {
                     this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID);
                 }
@@ -109,7 +111,7 @@ export class ListTicketsComponent implements OnInit {
     takeEvent = async (event: boolean) => {
         event && event === true && ( 
             this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets,
-            this.tickets && this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.length)
+            this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.length)
         )
     }
 

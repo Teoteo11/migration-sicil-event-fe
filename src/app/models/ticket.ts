@@ -28,4 +28,4 @@ export interface PayloadTicket {
     typeTicket: Type;
 }
 
-export const THESHOLD_GIFT = 31;
+export const THESHOLD_GIFT = 26;

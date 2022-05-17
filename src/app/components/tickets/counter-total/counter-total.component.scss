@@ -17,6 +17,20 @@
         text-transform: uppercase;
         font-size: toRem(20);
     }
+
+    .remove-fs {
+        @extend .counter;
+        font-size: initial;
+        text-align: center;
+    }
+
+    // .p-0 {
+    //     padding: 0;
+    // }
+
+    // .pr-0 {
+    //     padding-right: 0;
+    // }
 }
 
 .remove-ml {

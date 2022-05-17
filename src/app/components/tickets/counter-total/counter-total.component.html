@@ -1,8 +1,30 @@
 <div class="row w-100 remove-ml">
     <div class="col-sm-12 counter-sticky">
-        <h2 *ngIf="role === 'RECEPTIONIST'; else other" class="counter">Totale biglietti: {{totalTickets}}</h2>
+        <ng-container [ngSwitch]="role">
+            <div *ngSwitchCase="'ADMIN'" class="row justify-content-around align-items-center">
+                <div class="col-2 d-flex justify-content-center">
+                    <h2 class="counter remove-fs">Venduti<br> {{totalTickets}}</h2>
+                </div>
+                <div class="col-2 d-flex justify-content-center">
+                    <h2 class="counter remove-fs">Non Venduti {{numNotPaid}}</h2>
+                </div>
+                <div class="col-2 d-flex justify-content-center">
+                    <h2 class="counter remove-fs">back stage {{numBackStage}}</h2>
+                </div>
+                <div class="col-2 d-flex justify-content-center">
+                    <h2 class="counter remove-fs">pista<br> {{numDanceFloor}}</h2>
+                </div>
+                <div class="col-2 d-flex justify-content-center">
+                    <h2 class="counter remove-fs">omaggi<br> {{gift}}</h2>
+                </div>
+            </div>
+            <h2 *ngSwitchCase="'PR'" class="counter">Totale biglietti venduti: {{totalTickets}}</h2>
+            <h2 *ngSwitchCase="'RECEPTIONIST'" class="counter">Totale biglietti: {{totalTickets}}</h2>
+            <h2 *ngSwitchDefault class="counter">Dato non disponibile</h2>
+        </ng-container>
+        <!-- <h2 *ngIf="role === 'RECEPTIONIST'; else other" class="counter">Totale biglietti: {{totalTickets}}</h2>
         <ng-template #other>
             <h2 class="counter">Totale biglietti venduti: {{totalTickets}}</h2>
-        </ng-template>
+        </ng-template> -->
     </div>
 </div>

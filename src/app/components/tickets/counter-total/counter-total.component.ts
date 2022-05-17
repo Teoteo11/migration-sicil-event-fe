@@ -9,7 +9,16 @@ import { CookieService } from 'ngx-cookie';
 export class CounterTotalComponent implements OnInit {
 
   role = '';
+  //ONLY STATUS PAID
   @Input() totalTickets: number;
+
+  @Input() numBackStage: number;
+
+  @Input() numDanceFloor: number;
+
+  @Input() numNotPaid: number;
+
+  @Input() gift: number;
   
   constructor(private cookieService: CookieService) {}
 

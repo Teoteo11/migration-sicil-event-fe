@@ -1,22 +1,27 @@
 <div class="row container-tickets">
-    <ng-container *ngIf="role === 'ADMIN' || role === 'RECEPTIONIST'">
+    <ng-container *ngIf="role === 'RECEPTIONIST'">
         <app-counter-total [totalTickets]="totalTicketsNumber"></app-counter-total>
+    </ng-container>
+    <ng-container *ngIf="role === 'ADMIN'">
+        <app-counter-total 
+            [gift]="totalGift" 
+            [numDanceFloor]="totalDanceFloor" 
+            [numBackStage]="totalBackStage"
+            [numNotPaid]="totalNotPaid" 
+            [totalTickets]="totalTicketsNumber">
+        </app-counter-total>
     </ng-container>
     <ng-container *ngIf="role !== 'RECEPTIONIST'">
         <app-filter-bar (triggerTab)="receiveTabChoosed($event)"></app-filter-bar>
     </ng-container>
     <div class="col-sm-12 position-elements d-inline-flex justify-content-between align-items-center">
-        <p class="total-specific-tickets">Biglietti: {{tickets && tickets.length ? tickets.length : 0}}</p>
+        <p class="total-specific-tickets">
+            Biglietti: {{ tickets && tickets.length ? tickets.length : 0 }}
+        </p>
         <div>
-            <input 
-            class="field-input" 
-            (keydown.enter)="filterArray()" 
-            placeholder="Campo preciso richiesto"
-            type="text"
-            [(ngModel)]="textValue"
-            name="search" 
-            id="search">
-            <img src="../../../assets/icons/search.svg" alt="search">
+            <input class="field-input" (keydown.enter)="filterArray()" placeholder="Campo preciso richiesto" type="text"
+                [(ngModel)]="textValue" name="search" id="search" />
+            <img (click)="filterArray()" class="btn-search" src="../../../assets/icons/search.svg" alt="search" />
         </div>
     </div>
     <ng-container *ngIf="tickets && tickets.length > 0; else noTickets">

@@ -20,6 +20,10 @@ export class ListTicketsComponent implements OnInit {
 
     originalTickets: Ticket[] = [];
     totalTicketsNumber: number;
+    totalBackStage: number;
+    totalDanceFloor: number;
+    totalGift: number;
+    totalNotPaid: number;
     sendFieldToFilter: string = 'NOTPAID';
     textValue: string;
     role: string;
@@ -41,6 +45,10 @@ export class ListTicketsComponent implements OnInit {
                         this.originalTickets = [...this.tickets];
                         this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID); 
                         this.totalTicketsNumber = this.originalTickets.filter(({status, type}) => status === Status.PAID && type !== Type.GIFT).length;     
+                        this.totalBackStage = this.originalTickets.filter( ({status, type}) => type === Type.BACKSTAGE && status === Status.PAID).length,
+                        this.totalDanceFloor = this.originalTickets.filter( ({status, type}) => type === Type.DANCE_FLOOR && status === Status.PAID).length,
+                        this.totalGift = this.originalTickets.filter( ({type}) => type === Type.GIFT).length,
+                        this.totalNotPaid = this.originalTickets.filter(({status}) => status === Status.NOTPAID).length
                     }
                 } catch (error) {
                     this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] });
@@ -118,7 +126,6 @@ export class ListTicketsComponent implements OnInit {
             this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length)
         )
     }
-
 }
 
 

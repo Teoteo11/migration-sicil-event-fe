@@ -56,9 +56,8 @@ export class HomepageComponent implements OnInit {
           // ADMIN
         } else if (this.role === Role.ADMIN) {
           this.listPR = await this.prService.getPrOfAdmin();
-          this.listPR.forEach( async item => {
+          this.listPR.map( async item => {
             const data = await this.ticketService.getTicketsOfSpecificPR(item.id);
-            console.log("🚀data", data)
             data.length > 0 && (
               this.totalTickets = data.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length,
               this.totalBackStage = data.filter( ({status, type}) => type === Type.BACKSTAGE && status === Status.PAID).length,
@@ -66,7 +65,6 @@ export class HomepageComponent implements OnInit {
               this.totalGift = data.filter( ({type}) => type === Type.GIFT).length,
               this.totalNotPaid = data.filter(({status}) => status === Status.NOTPAID).length
             );
-            console.log('MBARE: ',this.totalTickets);
           });
         } else {
           // RECEPTIONIST

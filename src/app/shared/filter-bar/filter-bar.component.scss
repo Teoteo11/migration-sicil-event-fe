@@ -6,8 +6,14 @@
     border-bottom: 3px solid $color-disabled;
     font-family: "Social Gothic", Arial, Helvetica, sans-serif;
 
+    .positioning {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .spacing {
-        padding: toRem(8);
+        padding: toRem(10);
         letter-spacing: 1px;
     }
 

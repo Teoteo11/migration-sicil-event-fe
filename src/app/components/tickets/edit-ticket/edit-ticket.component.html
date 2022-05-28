@@ -1,9 +1,4 @@
 <div class="container-fluid">
-    <div class="row w-100">
-        <div class="back-bar">
-            <img (click)="back()" height="40" width="40" src="../../../../assets/icons/arrow.svg"/>
-        </div>
-    </div>
     <div class="container-edit row">
         <p class="title">Modifica lo stato di pagamento del biglietto</p>
         <div *ngIf="ticket; else noTicket" class="box-data col-sm-12">
@@ -21,7 +16,7 @@
             </div>
         </div>
         <div class="btn-pay">
-            <app-button (click)="changeStatus()" color="secondary">Paga</app-button>
+            <app-button (click)="changeStatus()" color="big-primary">Paga</app-button>
         </div>
         <ng-template #noTicket>
             <p class="noTicket">Biglietto non disponibile, ritorna alla lista per modificarlo</p>

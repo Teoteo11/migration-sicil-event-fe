@@ -45,6 +45,7 @@ export class HomepageComponent implements OnInit {
 
   async ngOnInit() {
     this.role = this.cookieService.get('role') as Role;
+    console.log("🚀 this.role", this.role)
     try { 
       if (this.role) {
         // PR
@@ -53,18 +54,20 @@ export class HomepageComponent implements OnInit {
           this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.filter(({status, type}) => status === Status.PAID && type !== Type.GIFT).length);
           const ticketsPaid = this.tickets.filter( item => item.status === Status.PAID && item.type !== Type.GIFT).length;
           this.cookieService.put('totalTicketsPaid', String(ticketsPaid));
-          // ADMIN
         } else if (this.role === Role.ADMIN) {
+          // ADMIN
           this.listPR = await this.prService.getPrOfAdmin();
+          console.log("🚀  this.listPR",  this.listPR)
           this.listPR.map( async item => {
             const data = await this.ticketService.getTicketsOfSpecificPR(item.id);
-            data.length > 0 && (
-              this.totalTickets = data.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length,
-              this.totalBackStage = data.filter( ({status, type}) => type === Type.BACKSTAGE && status === Status.PAID).length,
-              this.totalDanceFloor = data.filter( ({status, type}) => type === Type.DANCE_FLOOR && status === Status.PAID).length,
-              this.totalGift = data.filter( ({type}) => type === Type.GIFT).length,
-              this.totalNotPaid = data.filter(({status}) => status === Status.NOTPAID).length
-            );
+          console.log("🚀 ~ file: homepage.component.ts ~ line 63 ~ HomepageComponent ~ ngOnInit ~ data", data)
+          //   data.length > 0 && (
+          //     this.totalTickets = data.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length,
+          //     this.totalBackStage = data.filter( ({status, type}) => type === Type.BACKSTAGE && status === Status.PAID).length,
+          //     this.totalDanceFloor = data.filter( ({status, type}) => type === Type.DANCE_FLOOR && status === Status.PAID).length,
+          //     this.totalGift = data.filter( ({type}) => type === Type.GIFT).length,
+          //     this.totalNotPaid = data.filter(({status}) => status === Status.NOTPAID).length
+          //   );
           });
         } else {
           // RECEPTIONIST

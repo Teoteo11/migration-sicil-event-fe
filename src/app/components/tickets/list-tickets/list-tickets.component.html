@@ -1,16 +1,4 @@
 <div class="row container-tickets">
-    <ng-container *ngIf="role === 'RECEPTIONIST'">
-        <app-counter-total [totalTickets]="totalTicketsNumber"></app-counter-total>
-    </ng-container>
-    <ng-container *ngIf="role === 'ADMIN'">
-        <app-counter-total 
-            [gift]="totalGift" 
-            [numDanceFloor]="totalDanceFloor" 
-            [numBackStage]="totalBackStage"
-            [numNotPaid]="totalNotPaid" 
-            [totalTickets]="totalTicketsNumber">
-        </app-counter-total>
-    </ng-container>
     <ng-container *ngIf="role !== 'RECEPTIONIST'">
         <app-filter-bar (triggerTab)="receiveTabChoosed($event)"></app-filter-bar>
     </ng-container>
@@ -35,3 +23,8 @@
         <p class="label-no-tickets">Nessun biglietto disponibile</p>
     </ng-template>
 </div>
+
+<!-- TODO: gestire casi dei vuoti -> i numeri a 0 dei counters e label "Nessun biglietto disponibile" -->
+<!-- TODO: gestire ricerca per GIFT per il receptionist -->
+<!-- TODO: gestire cambio automatico numero complessivo biglietti nel componente counter-total -->
+<!-- TODO: gestire refresh biglietti del receptionist post delete ticket -->

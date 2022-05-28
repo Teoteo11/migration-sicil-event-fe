@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -43,8 +43,10 @@ export class NavbarComponent implements OnInit {
 
   back = () => this.location.back();
 
-  showArrowBack = () => this.cookieService.get('role') === Role.ADMIN && this.url.includes('tickets');
-
+  showArrowBack = () => 
+    this.cookieService.get('role') === Role.ADMIN && this.url.includes('tickets') 
+    || this.cookieService.get('role') === Role.PR && this.url !== '/homepage';
+  
   ngOnDestroy() {
     routeSub: Subscription;
   }

@@ -93,7 +93,7 @@ export class SellTicketComponent implements OnInit {
       height: '500px',
       data: {
         title: 'Hai vinto un biglietto omaggio',
-        message: 'Controlla la tua posta elettronica. Azione non reversibile',
+        message: 'Riceverai il biglietto sulla tua posta elettronica. Azione non reversibile',
         actionClick: () => {},
         showInputField: true
       }

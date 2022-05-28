@@ -19,7 +19,7 @@ export interface User {
 
 export interface Pr extends User {
     numberTicketsSold: number;
-    ticketsSold: [];
+    ticketsSold: Ticket[];
 }
 
 export interface Admin extends User {

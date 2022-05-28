@@ -1,6 +1,5 @@
-<!-- <app-navbar></app-navbar> -->
 <router-outlet></router-outlet>
-<div *ngIf="role === 'ADMIN'; else noAdmin">
+<ng-container *ngIf="role === 'ADMIN'; else noAdmin">
     <app-counter-total 
         [gift]="totalGift" 
         [numDanceFloor]="totalDanceFloor" 
@@ -8,30 +7,10 @@
         [numNotPaid]="totalNotPaid"
         [totalTickets]="totalTickets">
     </app-counter-total>
-</div>
+</ng-container>
 <ng-template #noAdmin>
     <app-counter-total [totalTickets]="totalTickets"></app-counter-total>
 </ng-template>
-<!-- <ng-container [ngSwitch]="role">
-    <ng-container *ngSwitchCase="'ADMIN'">
-        <app-counter-total 
-            [gift]="totalGift" 
-            [numDanceFloor]="totalDanceFloor" 
-            [numBackStage]="totalBackStage" 
-            [numNotPaid]="totalNotPaid"
-            [totalTickets]="totalTickets">
-        </app-counter-total>
-    </ng-container>
-    <ng-container *ngSwitchCase="'PR'">
-        <app-counter-total [totalTickets]="totalTickets"></app-counter-total>
-    </ng-container>
-    <ng-container *ngSwitchCase="'RECEPTIONIST'">
-        <app-counter-total [totalTickets]="totalTickets"></app-counter-total>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
-        Dato non disponibile
-    </ng-container>
-</ng-container> -->
 <app-btn-ticket></app-btn-ticket>
 <div *ngIf="role === 'ADMIN'; else ticketsNoAdmin">
     <app-list-pr [listPR]="listPR"></app-list-pr>
@@ -39,14 +18,3 @@
 <ng-template #ticketsNoAdmin>
     <app-list-tickets [tickets]="tickets"></app-list-tickets>
 </ng-template>
-<!-- <ng-container [ngSwitch]="role">
-    <ng-container *ngSwitchCase="'ADMIN'">
-      <app-list-pr [listPR]="listPR"></app-list-pr>
-    </ng-container>
-    <ng-container *ngSwitchCase="'PR'">
-        <app-list-tickets [tickets]="tickets"></app-list-tickets>
-    </ng-container>
-    <ng-container *ngSwitchCase="'RECEPTIONIST'">
-        <app-list-tickets [tickets]="tickets"></app-list-tickets>
-    </ng-container>
-</ng-container> -->

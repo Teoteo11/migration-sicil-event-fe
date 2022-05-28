@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { Observable } from 'rxjs/internal/Observable';
@@ -9,16 +9,13 @@ import { Observable } from 'rxjs/internal/Observable';
   styleUrls: ['./choose-role.component.scss']
 })
 
-export class ChooseRoleComponent implements OnInit {
+export class ChooseRoleComponent {
 
   role: Observable<string>;
 
   constructor(
     private router: Router, 
     private cookieService: CookieService) {}
-
-  ngOnInit(): void {
-  }
 
   setRole = (role: 'ADMIN' | 'PR' | 'RECEPTIONIST') => {
     this.cookieService.put('role', role);

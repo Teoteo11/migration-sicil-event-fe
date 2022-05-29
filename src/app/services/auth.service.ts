@@ -21,7 +21,6 @@ export class AuthService {
   login = async (email: string, password: string) =>
     await this.http.post<User>(`${environment.url}/${this.getRole()}/login`, { email, password }).toPromise();
 
-
   getRole = (): string => {
     switch (this.cookieService.get('role')) {
       case Role.ADMIN:

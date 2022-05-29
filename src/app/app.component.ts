@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -8,22 +8,24 @@ import { filter } from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
 
+export class AppComponent {
   url = '';
   routeSub: Subscription;
 
-
-  constructor(private router: Router) {
+  constructor(private router: Router, private route: ActivatedRoute) {
     this.routeSub = router.events.pipe(
       filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        this.url = event.url
+        this.url = event.url;
       });
   }
 
-
-  title = 'sicil-event-fe';
+  showNav = () => 
+    this.url !== '/choose-role' && this.url !== '/login' 
+    && this.url !== '/sell-ticket' && this.url !== '/' 
+    && this.url.length < 30 || this.route.snapshot.queryParams['id']
+  
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();

@@ -1,6 +1,5 @@
 <div class="container-admin">
-  <!-- TODO: funzione () => boolean -->
-  <ng-container *ngIf="url !== '/choose-role' && url !== '/login' && url !== '/sell-ticket' && url !== '/' ">
+  <ng-container *ngIf="showNav()">
     <app-navbar></app-navbar>
   </ng-container>
   <router-outlet></router-outlet>

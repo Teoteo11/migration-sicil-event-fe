@@ -43,10 +43,8 @@ export class AuthService {
   isLoggedIn = (): boolean => this.cookieService.get('accessToken') ? true : false;
 
   handleErrorStatus = (error): string => {
-  console.log("🚀 error", error)
     if (error.error.message.includes('SOLD OUT')) {
       //TODO mandare alla tooltip
-      console.log('SOLD OUT MEFFRATE')
     }
     switch (error.status) {
       case 400:

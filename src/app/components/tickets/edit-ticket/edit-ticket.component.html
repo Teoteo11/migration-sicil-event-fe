@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    <img class="arrow-back" (click)="back()" height="24" width="24" src="../../../../assets/icons/arrow-white.png" />
     <div class="container-edit row">
         <p class="title">Modifica lo stato di pagamento del biglietto</p>
         <div *ngIf="ticket; else noTicket" class="box-data col-sm-12">

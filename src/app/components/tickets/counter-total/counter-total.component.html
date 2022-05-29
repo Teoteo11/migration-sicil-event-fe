@@ -18,14 +18,9 @@
                     <h2 class="counter remove-fs">omaggi<br> {{gift}}</h2>
                 </div>
             </div>
-            <!-- TODO aggiornare dato con BehaviourSubject + gestione dello zero -->
             <h2 *ngSwitchCase="'PR'" class="counter">Totale biglietti venduti: {{totalTickets}}</h2>
             <h2 *ngSwitchCase="'RECEPTIONIST'" class="counter">Totale biglietti: {{totalTickets}}</h2>
             <h2 *ngSwitchDefault class="counter">Dato non disponibile</h2>
         </ng-container>
-        <!-- <h2 *ngIf="role === 'RECEPTIONIST'; else other" class="counter">Totale biglietti: {{totalTickets}}</h2>
-        <ng-template #other>
-            <h2 class="counter">Totale biglietti venduti: {{totalTickets}}</h2>
-        </ng-template> -->
     </div>
 </div>

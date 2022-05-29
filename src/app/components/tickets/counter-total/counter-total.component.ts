@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 
 @Component({
@@ -19,6 +19,8 @@ export class CounterTotalComponent implements OnInit {
   @Input() numNotPaid: number;
 
   @Input() gift: number;
+
+  @Input() updateTotalForReceptionist: number;
   
   constructor(private cookieService: CookieService) {}
 
@@ -26,6 +28,11 @@ export class CounterTotalComponent implements OnInit {
     this.role = this.cookieService.get('role');
   }
 
-
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes) {
+      changes.updateTotalForReceptionist && changes.updateTotalForReceptionist.currentValue !== undefined && (this.totalTickets = this.updateTotalForReceptionist)
+    }
+    // this.totalTickets = changes.updateTotalForReceptionist && changes.updateTotalForReceptionist.currentValue
+  }
 
 }

@@ -9,12 +9,12 @@
     </app-counter-total>
 </ng-container>
 <ng-template #noAdmin>
-    <app-counter-total [totalTickets]="totalTickets"></app-counter-total>
+    <app-counter-total [totalTickets]="totalTickets" [updateTotalForReceptionist]="sendNumberToReceptionist"></app-counter-total>
 </ng-template>
 <app-btn-ticket></app-btn-ticket>
 <div *ngIf="role === 'ADMIN'; else ticketsNoAdmin">
     <app-list-pr [listPR]="listPR"></app-list-pr>
 </div>
 <ng-template #ticketsNoAdmin>
-    <app-list-tickets [tickets]="tickets"></app-list-tickets>
+    <app-list-tickets [tickets]="tickets" (sendTotalForReceptionist)="takeTotalForReceptionist($event)"></app-list-tickets>
 </ng-template>

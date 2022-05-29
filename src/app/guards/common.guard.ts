@@ -19,7 +19,6 @@ export class CommonGuard implements CanActivate {
   canActivate = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean => this.checkLogin(state.url);
 
   checkLogin = (url: string): boolean => {
-    //TODO if 401 || scadenza token -> redirect choose-role + snackbar sessione scaduta
     if (this.authService.isLoggedIn() &&  (url === '/login' || url === '/choose-role')) {
       this.router.navigate(['homepage']);
       return true;

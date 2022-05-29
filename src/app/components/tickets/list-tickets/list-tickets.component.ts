@@ -17,6 +17,7 @@ import { TicketsService } from 'src/app/services/tickets.service';
 export class ListTicketsComponent implements OnInit {
 
     @Input() tickets: Ticket[];
+    @Output() sendTotalForReceptionist = new EventEmitter<number>();
 
     originalTickets: Ticket[] = [];
     totalTicketsNumber: number;
@@ -123,7 +124,8 @@ export class ListTicketsComponent implements OnInit {
     takeEvent = async (event: boolean) => {
         event && event === true && ( 
             this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets,
-            this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length)
+            this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length),
+            this.sendTotalForReceptionist.emit(this.totalTicketsNumber)
         )
     }
 }

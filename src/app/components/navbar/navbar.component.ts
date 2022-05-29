@@ -43,13 +43,9 @@ export class NavbarComponent implements OnInit {
 
   back = () => this.location.back();
 
-  showArrowBack = () => 
-    this.cookieService.get('role') === Role.ADMIN && this.url.includes('tickets') 
-    || this.cookieService.get('role') === Role.PR && this.url !== '/homepage';
+  showArrowBack = () => this.cookieService.get('role') === Role.ADMIN && this.url.includes('tickets') 
   
   ngOnDestroy() {
-    routeSub: Subscription;
+    this.routeSub.unsubscribe();
   }
-  
-
 }

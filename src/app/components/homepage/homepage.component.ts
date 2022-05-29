@@ -70,6 +70,7 @@ export class HomepageComponent implements OnInit {
         } else {
           // RECEPTIONIST
           this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets;
+          console.log("🚀 this.tickets", this.tickets)
           this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.length);
         }
         }

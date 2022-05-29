@@ -43,8 +43,8 @@ export class AuthService {
   isLoggedIn = (): boolean => this.cookieService.get('accessToken') ? true : false;
 
   handleErrorStatus = (error): string => {
-    if (error.error.message.includes('SOLD OUT')) {
-      //TODO mandare alla tooltip
+    if (error.error && error.error.message && error.error.message.includes('SOLD OUT')) {
+      return 'Transazioni chiuse';
     }
     switch (error.status) {
       case 400:

@@ -89,7 +89,7 @@ export class ListTicketsComponent implements OnInit {
             this.tickets = filteredTicketsTab.filter( ({email}) => email === this.textValue );
         }
         //? TIPOLOGIA
-        if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR) {
+        if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR || this.textValue === Type.GIFT) {
             this.tickets = filteredTicketsTab.filter( ({type}) => type === this.textValue );
         }
     }

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { Status, THESHOLD_GIFT, Ticket, Type } from 'src/app/models/ticket';
 import { AuthService } from 'src/app/services/auth.service';
+import { CommonService } from 'src/app/services/common.service';
 import { TicketsService } from 'src/app/services/tickets.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
@@ -24,6 +25,7 @@ export class EditTicketComponent implements OnInit {
     private authService: AuthService,
     private dialog: MatDialog,
     private cookieService: CookieService,
+    private commonService: CommonService,
     private ticketService: TicketsService,
     private route: ActivatedRoute) { }
 
@@ -44,8 +46,9 @@ export class EditTicketComponent implements OnInit {
       this.isClicked = true;
       const res = await this.ticketService.updateTicket(this.ticket._id);
       if (res) {
+        this.cookieService.put('ticketUpdated', JSON.stringify(this.ticket));
         this.snackBar.open('PAGAMENTO AVVENUTO', 'X', { duration: 1100, panelClass: ['custom-snackbar-complete'] });
-        this.checkGift() ? this.openDialog() : this.router.navigateByUrl('homepage');     
+        this.checkGift() ? this.openDialog() : this.router.navigate(['homepage']);     
       }
       setTimeout(() => {
         this.isClicked = false;

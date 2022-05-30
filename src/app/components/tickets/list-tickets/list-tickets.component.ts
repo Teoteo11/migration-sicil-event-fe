@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie';
 import { Ticket, Type, Status } from 'src/app/models/ticket';
 import { Role } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { CommonService } from 'src/app/services/common.service';
 import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
@@ -17,7 +18,7 @@ import { TicketsService } from 'src/app/services/tickets.service';
 export class ListTicketsComponent implements OnInit {
 
     @Input() tickets: Ticket[];
-    @Output() sendTotalForReceptionist = new EventEmitter<number>();
+    // @Output() sendTotalForReceptionist = new EventEmitter<number>();
 
     originalTickets: Ticket[] = [];
     totalTicketsNumber: number;
@@ -34,6 +35,7 @@ export class ListTicketsComponent implements OnInit {
                 private snackBar: MatSnackBar,
                 private authService: AuthService,
                 private ticketService: TicketsService,
+                private commonService: CommonService,
                 private cookieService: CookieService) { }
 
     async ngOnInit() {
@@ -77,21 +79,22 @@ export class ListTicketsComponent implements OnInit {
         //? IDSALE
         if (this.sendFieldToFilter === Type.GIFT || this.sendFieldToFilter === Status.PAID || this.role === Role.RECEPTIONIST) {
             if (this.findSomeIdSale(this.textValue)) {
-                this.tickets = filteredTicketsTab.filter(({idSale}) => idSale === this.textValue);
+                return this.tickets = filteredTicketsTab.filter(({idSale}) => idSale === this.textValue);
             }
         }
         //? NAME -SURNAME
         if (this.findSomeNameOrSurname(this.textValue)) {
-            this.tickets = filteredTicketsTab.filter( ({name, surname}) => ( name === this.textValue || surname === this.textValue));
+            return this.tickets = filteredTicketsTab.filter( ({name, surname}) => ( name === this.textValue || surname === this.textValue));
         }
         //? EMAIL
         if (this.textValue.includes('@')) {
-            this.tickets = filteredTicketsTab.filter( ({email}) => email === this.textValue );
+            return this.tickets = filteredTicketsTab.filter( ({email}) => email === this.textValue );
         }
         //? TIPOLOGIA
         if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR || this.textValue === Type.GIFT) {
-            this.tickets = filteredTicketsTab.filter( ({type}) => type === this.textValue );
+            return this.tickets = filteredTicketsTab.filter( ({type}) => type === this.textValue );
         }
+        return this.tickets = [];
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -124,8 +127,10 @@ export class ListTicketsComponent implements OnInit {
     takeEvent = async (event: boolean) => {
         event && event === true && ( 
             this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets,
-            this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length),
-            this.sendTotalForReceptionist.emit(this.totalTicketsNumber)
+            console.log('TICKETS: ', this.tickets),
+            this.commonService.sendNumRecep(this.tickets.length.toString())
+            // this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length),
+            // this.sendTotalForReceptionist.emit(this.totalTicketsNumber)
         )
     }
 }

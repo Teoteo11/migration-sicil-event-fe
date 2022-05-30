@@ -16,5 +16,6 @@
     <app-list-pr [listPR]="listPR"></app-list-pr>
 </div>
 <ng-template #ticketsNoAdmin>
-    <app-list-tickets [tickets]="tickets" (sendTotalForReceptionist)="takeTotalForReceptionist($event)"></app-list-tickets>
+    <!-- sendTotalForReceptionist -->
+    <app-list-tickets [tickets]="tickets"></app-list-tickets>
 </ng-template>

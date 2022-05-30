@@ -30,12 +30,12 @@
                     <td class="label-value">{{ticket.type ? ticket.type : '-'}}</td>
                 </tr>
                 <!-- TODO: verificare questo if -->
-                <ng-container *ngIf="ticket.status === 'PAID'">
+                <!-- <ng-container *ngIf="ticket.status === 'PAID'">
                     <tr scope="row">
                         <td class="label-head">Pagato</td>
                         <td class="label-value" *ngIf="ticket.status && ticket.status === 'PAID'">{{ ticket.status ? ticket.status : '-'}}</td>
                     </tr>
-                </ng-container>
+                </ng-container> -->
             </tbody>
         </table>
         <!-- <div class="col-6">

@@ -32,7 +32,6 @@ export class CounterTotalComponent implements OnInit {
     if (changes) {
       changes.updateTotalForReceptionist && changes.updateTotalForReceptionist.currentValue !== undefined && (this.totalTickets = this.updateTotalForReceptionist)
     }
-    // this.totalTickets = changes.updateTotalForReceptionist && changes.updateTotalForReceptionist.currentValue
   }
 
 }

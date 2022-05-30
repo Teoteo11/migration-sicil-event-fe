@@ -55,7 +55,8 @@ export class HomepageComponent implements OnInit {
           this.tickets = await this.ticketService.getTickets();
           console.log("🚀 this.tickets", this.tickets);
           this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.filter(({status, type}) => status === Status.PAID && type !== Type.GIFT).length);
-          const ticketsPaid = this.tickets.filter( item => item.status === Status.PAID && item.type !== Type.GIFT).length;
+          // totalTicketsPaid
+          const ticketsPaid = this.tickets.filter( item => item.status === Status.PAID).length;
           this.cookieService.put('totalTicketsPaid', String(ticketsPaid));
         } else if (this.role === Role.ADMIN) {
           // ADMIN

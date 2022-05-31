@@ -12,7 +12,7 @@ export class CounterTotalComponent implements OnInit {
   //ONLY STATUS PAID
   @Input() totalTickets: number;
 
-  @Input() numBackStage: number;
+  @Input() numPrive: number;
 
   @Input() numDanceFloor: number;
 

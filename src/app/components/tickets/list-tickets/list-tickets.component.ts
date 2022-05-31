@@ -22,7 +22,7 @@ export class ListTicketsComponent implements OnInit {
 
     originalTickets: Ticket[] = [];
     totalTicketsNumber: number;
-    totalBackStage: number;
+    totalPrive: number;
     totalDanceFloor: number;
     totalGift: number;
     totalNotPaid: number;
@@ -49,7 +49,7 @@ export class ListTicketsComponent implements OnInit {
                         this.originalTickets = [...this.tickets];
                         this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID); 
                         this.totalTicketsNumber = this.originalTickets.filter(({status, type}) => status === Status.PAID && type !== Type.GIFT).length;     
-                        this.totalBackStage = this.originalTickets.filter( ({status, type}) => type === Type.BACKSTAGE && status === Status.PAID).length,
+                        this.totalPrive = this.originalTickets.filter( ({status, type}) => type === Type.PRIVE && status === Status.PAID).length,
                         this.totalDanceFloor = this.originalTickets.filter( ({status, type}) => type === Type.DANCE_FLOOR && status === Status.PAID).length,
                         this.totalGift = this.originalTickets.filter( ({type}) => type === Type.GIFT).length,
                         this.totalNotPaid = this.originalTickets.filter(({status}) => status === Status.NOTPAID).length
@@ -92,7 +92,7 @@ export class ListTicketsComponent implements OnInit {
             return this.tickets = filteredTicketsTab.filter( ({email}) => email === this.textValue );
         }
         //? TIPOLOGIA
-        if (this.textValue === Type.BACKSTAGE || this.textValue === Type.DANCE_FLOOR || this.textValue === Type.GIFT) {
+        if (this.textValue === Type.PRIVE || this.textValue === Type.DANCE_FLOOR || this.textValue === Type.GIFT) {
             return this.tickets = filteredTicketsTab.filter( ({type}) => type === this.textValue );
         }
         return this.tickets = [];

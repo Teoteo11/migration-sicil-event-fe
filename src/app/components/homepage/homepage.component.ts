@@ -19,7 +19,7 @@ export class HomepageComponent implements OnInit {
 
   role: Role;
   totalTickets: number;
-  totalBackStage: number;
+  totalPrive: number;
   totalDanceFloor: number;
   totalGift: number;
   totalNotPaid: number;
@@ -65,7 +65,7 @@ export class HomepageComponent implements OnInit {
             data = [...new Set(removeDuplicatesPostUpdate(data))];
             data.length > 0 && (
               this.totalTickets = data.filter(({ status, type }) => status === Status.PAID && type !== Type.GIFT).length,
-              this.totalBackStage = data.filter(({ status, type }) => type === Type.BACKSTAGE && status === Status.PAID).length,
+              this.totalPrive = data.filter(({ status, type }) => type === Type.PRIVE && status === Status.PAID).length,
               this.totalDanceFloor = data.filter(({ status, type }) => type === Type.DANCE_FLOOR && status === Status.PAID).length,
               this.totalGift = data.filter(({ type }) => type === Type.GIFT).length,
               this.totalNotPaid = data.filter(({ status }) => status === Status.NOTPAID).length

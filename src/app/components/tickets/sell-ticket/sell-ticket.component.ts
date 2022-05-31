@@ -19,7 +19,7 @@ export class SellTicketComponent implements OnInit {
 
   @ViewChild('payCheckbox', {static: true}) payCheckbox: ElementRef<any>; 
 
-  typologies = ['BACKSTAGE', 'DANCE_FLOOR'];
+  typologies = ['PRIVE', 'DANCE_FLOOR'];
   tipology = new FormControl();
   ticketForm: FormGroup = undefined;
   submitted = false;

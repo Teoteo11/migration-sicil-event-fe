@@ -45,7 +45,6 @@ export class HomepageComponent implements OnInit {
               } 
                 
   async ngOnInit() {
-    console.log('ciao');
     this.commonService.eventsRecep$.forEach( event => this.sendNumberToReceptionist = event)
     this.role = this.cookieService.get('role') as Role;
     try { 

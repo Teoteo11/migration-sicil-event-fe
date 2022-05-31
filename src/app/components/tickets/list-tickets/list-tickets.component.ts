@@ -69,7 +69,6 @@ export class ListTicketsComponent implements OnInit {
         let filteredTicketsTab = this.role !== Role.RECEPTIONIST 
         ? this.originalTickets.filter( ({status, type}) => (status === this.sendFieldToFilter || type === this.sendFieldToFilter)) 
         : this.originalTickets = (await this.ticketService.getTicketsForReceptionists()).tickets;
-        console.log("🚀 this.originalTickets", this.originalTickets)
         if (this.sendFieldToFilter === Status.PAID) {
             filteredTicketsTab = filteredTicketsTab.filter(({type}) => type !== Type.GIFT);
         }
@@ -129,7 +128,6 @@ export class ListTicketsComponent implements OnInit {
     takeEvent = async (event: boolean) => {
         event && event === true && ( 
             this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets,
-            console.log('TICKETS: ', this.tickets),
             this.commonService.sendNumRecep(this.tickets.length)
         )
     }

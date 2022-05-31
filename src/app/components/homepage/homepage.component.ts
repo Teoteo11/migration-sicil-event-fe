@@ -45,30 +45,30 @@ export class HomepageComponent implements OnInit {
               } 
                 
   async ngOnInit() {
-    this.commonService.eventsRecep$.forEach( event => this.sendNumberToReceptionist = event)
+    this.commonService.eventsRecep$.forEach(event => this.sendNumberToReceptionist = event)
     this.role = this.cookieService.get('role') as Role;
-    try { 
+    try {
       if (this.role) {
         // PR
         if (this.role === Role.PR) {
           this.tickets = await this.ticketService.getTickets();
           this.tickets = [...new Set(removeDuplicatesPostUpdate(this.tickets))];
-          this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.filter(({status, type}) => status === Status.PAID && type !== Type.GIFT).length);
+          this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.filter(({ status, type }) => status === Status.PAID && type !== Type.GIFT).length);
           // totalTicketsPaid
-          const ticketsPaid = this.tickets.filter( item => item.status === Status.PAID).length;
+          const ticketsPaid = this.tickets.filter(item => item.status === Status.PAID).length;
           this.cookieService.put('totalTicketsPaid', String(ticketsPaid));
         } else if (this.role === Role.ADMIN) {
           // ADMIN
           this.listPR = await this.prService.getPrOfAdmin();
-          this.listPR.map( async item => {
+          this.listPR.map(async item => {
             let data = await this.ticketService.getTicketsOfSpecificPR(item.id);
-           data = [...new Set(removeDuplicatesPostUpdate(data))];
+            data = [...new Set(removeDuplicatesPostUpdate(data))];
             data.length > 0 && (
-              this.totalTickets = data.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length,
-              this.totalBackStage = data.filter( ({status, type}) => type === Type.BACKSTAGE && status === Status.PAID).length,
-              this.totalDanceFloor = data.filter( ({status, type}) => type === Type.DANCE_FLOOR && status === Status.PAID).length,
-              this.totalGift = data.filter( ({type}) => type === Type.GIFT).length,
-              this.totalNotPaid = data.filter(({status}) => status === Status.NOTPAID).length
+              this.totalTickets = data.filter(({ status, type }) => status === Status.PAID && type !== Type.GIFT).length,
+              this.totalBackStage = data.filter(({ status, type }) => type === Type.BACKSTAGE && status === Status.PAID).length,
+              this.totalDanceFloor = data.filter(({ status, type }) => type === Type.DANCE_FLOOR && status === Status.PAID).length,
+              this.totalGift = data.filter(({ type }) => type === Type.GIFT).length,
+              this.totalNotPaid = data.filter(({ status }) => status === Status.NOTPAID).length
             );
           });
         } else {
@@ -76,9 +76,9 @@ export class HomepageComponent implements OnInit {
           this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets;
           this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.length);
         }
-        }
       }
-     catch (error) {
+    }
+    catch (error) {
       this.snackBar.open(this.authService.handleErrorStatus(error), 'X', { duration: 1500, panelClass: ['custom-snackbar'] });
     }
   }

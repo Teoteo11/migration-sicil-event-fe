@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
-import { useReduce } from 'src/app/helpers/useReduce';
+import { removeDuplicatesPostUpdate } from 'src/app/helpers/removeDuplicatesPostUpdate';
 import { Status, Ticket, Type } from 'src/app/models/ticket';
 import { Pr, Role } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -46,14 +46,14 @@ export class HomepageComponent implements OnInit {
                 
   async ngOnInit() {
     console.log('ciao');
-    this.commonService.events$.forEach( event => this.sendNumberToReceptionist = Number(event))
+    this.commonService.eventsRecep$.forEach( event => this.sendNumberToReceptionist = event)
     this.role = this.cookieService.get('role') as Role;
     try { 
       if (this.role) {
         // PR
         if (this.role === Role.PR) {
           this.tickets = await this.ticketService.getTickets();
-          this.tickets = [...new Set(useReduce(this.tickets))];
+          this.tickets = [...new Set(removeDuplicatesPostUpdate(this.tickets))];
           this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.filter(({status, type}) => status === Status.PAID && type !== Type.GIFT).length);
           // totalTicketsPaid
           const ticketsPaid = this.tickets.filter( item => item.status === Status.PAID).length;
@@ -62,7 +62,8 @@ export class HomepageComponent implements OnInit {
           // ADMIN
           this.listPR = await this.prService.getPrOfAdmin();
           this.listPR.map( async item => {
-            const data = await this.ticketService.getTicketsOfSpecificPR(item.id);
+            let data = await this.ticketService.getTicketsOfSpecificPR(item.id);
+           data = [...new Set(removeDuplicatesPostUpdate(data))];
             data.length > 0 && (
               this.totalTickets = data.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length,
               this.totalBackStage = data.filter( ({status, type}) => type === Type.BACKSTAGE && status === Status.PAID).length,

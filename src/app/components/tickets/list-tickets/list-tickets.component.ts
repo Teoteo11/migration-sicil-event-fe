@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
+import { removeDuplicatesPostUpdate } from 'src/app/helpers/removeDuplicatesPostUpdate';
 import { Ticket, Type, Status } from 'src/app/models/ticket';
 import { Role } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -18,7 +19,6 @@ import { TicketsService } from 'src/app/services/tickets.service';
 export class ListTicketsComponent implements OnInit {
 
     @Input() tickets: Ticket[];
-    // @Output() sendTotalForReceptionist = new EventEmitter<number>();
 
     originalTickets: Ticket[] = [];
     totalTicketsNumber: number;
@@ -45,6 +45,7 @@ export class ListTicketsComponent implements OnInit {
                 try {
                     if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.id) {
                         this.tickets = await this.ticketService.getTicketsOfSpecificPR(this.route.snapshot.queryParams.id);
+                        this.tickets = [...new Set(removeDuplicatesPostUpdate(this.tickets))];
                         this.originalTickets = [...this.tickets];
                         this.tickets = this.originalTickets.filter(item => item.status === Status.NOTPAID); 
                         this.totalTicketsNumber = this.originalTickets.filter(({status, type}) => status === Status.PAID && type !== Type.GIFT).length;     
@@ -64,10 +65,11 @@ export class ListTicketsComponent implements OnInit {
 
     findSomeIdSale = (idSaleParam: string) => this.originalTickets.some( ({idSale}) => idSale === idSaleParam);
     
-    filterArray = () => {
+    filterArray = async () => {
         let filteredTicketsTab = this.role !== Role.RECEPTIONIST 
         ? this.originalTickets.filter( ({status, type}) => (status === this.sendFieldToFilter || type === this.sendFieldToFilter)) 
-        : this.originalTickets;
+        : this.originalTickets = (await this.ticketService.getTicketsForReceptionists()).tickets;
+        console.log("🚀 this.originalTickets", this.originalTickets)
         if (this.sendFieldToFilter === Status.PAID) {
             filteredTicketsTab = filteredTicketsTab.filter(({type}) => type !== Type.GIFT);
         }
@@ -128,9 +130,7 @@ export class ListTicketsComponent implements OnInit {
         event && event === true && ( 
             this.tickets = (await this.ticketService.getTicketsForReceptionists()).tickets,
             console.log('TICKETS: ', this.tickets),
-            this.commonService.sendNumRecep(this.tickets.length.toString())
-            // this.tickets.length > 0 && (this.totalTicketsNumber = this.tickets.filter( ({status, type}) => status === Status.PAID && type !== Type.GIFT).length),
-            // this.sendTotalForReceptionist.emit(this.totalTicketsNumber)
+            this.commonService.sendNumRecep(this.tickets.length)
         )
     }
 }

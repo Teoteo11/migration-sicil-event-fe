@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
+import { useReduce } from 'src/app/helpers/useReduce';
 import { Status, Ticket, Type } from 'src/app/models/ticket';
 import { Pr, Role } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -42,7 +43,6 @@ export class HomepageComponent implements OnInit {
               private ticketService: TicketsService) {
                 
               } 
-
                 
   async ngOnInit() {
     console.log('ciao');
@@ -53,7 +53,7 @@ export class HomepageComponent implements OnInit {
         // PR
         if (this.role === Role.PR) {
           this.tickets = await this.ticketService.getTickets();
-          console.log("🚀 this.tickets", this.tickets);
+          this.tickets = [...new Set(useReduce(this.tickets))];
           this.tickets && this.tickets.length > 0 && (this.totalTickets = this.tickets.filter(({status, type}) => status === Status.PAID && type !== Type.GIFT).length);
           // totalTicketsPaid
           const ticketsPaid = this.tickets.filter( item => item.status === Status.PAID).length;
